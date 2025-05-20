@@ -57,15 +57,138 @@ export const formatAge = (timestamp: number): string => {
     }
 };
 
+// Mock data for fallback when API fails
+const mockBlocks: Block[] = [
+    {
+        id: "9b1dd12f5f5a9cef19c84e8feba0c2d9a8ebb7d5c18ec4799c55e1b2fc09caef",
+        age: "45s ago",
+        transactions: "28",
+        size: "245.15 KB",
+        block_height: 8921674,
+        block_time: Math.floor(Date.now() / 1000) - 45
+    },
+    {
+        id: "8a2cc12e6f5a9cef19c84e8feba0c2d9a8ebb7d5c18ec4799c55e1b2fc09caef",
+        age: "1m ago",
+        transactions: "12",
+        size: "123.45 KB",
+        block_height: 8921673,
+        block_time: Math.floor(Date.now() / 1000) - 60
+    },
+    {
+        id: "7b3dd12f5f5a9cef19c84e8feba0c2d9a8ebb7d5c18ec4799c55e1b2fc09caef",
+        age: "2m ago",
+        transactions: "35",
+        size: "198.72 KB",
+        block_height: 8921672,
+        block_time: Math.floor(Date.now() / 1000) - 120
+    },
+    {
+        id: "6c4ed12f5f5a9cef19c84e8feba0c2d9a8ebb7d5c18ec4799c55e1b2fc09caef",
+        age: "3m ago",
+        transactions: "18",
+        size: "156.23 KB",
+        block_height: 8921671,
+        block_time: Math.floor(Date.now() / 1000) - 180
+    },
+    {
+        id: "5d5fd12f5f5a9cef19c84e8feba0c2d9a8ebb7d5c18ec4799c55e1b2fc09caef",
+        age: "4m ago",
+        transactions: "42",
+        size: "278.91 KB",
+        block_height: 8921670,
+        block_time: Math.floor(Date.now() / 1000) - 240
+    }
+];
 
+const mockTransactions: Transaction[] = [
+    {
+        hash: "abcd1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921674,
+        block_time: Math.floor(Date.now() / 1000) - 45,
+        amount: "152.75 ADA",
+        age: "45s ago"
+    },
+    {
+        hash: "bcde1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921674,
+        block_time: Math.floor(Date.now() / 1000) - 50,
+        amount: "28.45 ADA",
+        age: "50s ago"
+    },
+    {
+        hash: "cdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921673,
+        block_time: Math.floor(Date.now() / 1000) - 60,
+        amount: "540.12 ADA",
+        age: "1m ago"
+    },
+    {
+        hash: "def01234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921673,
+        block_time: Math.floor(Date.now() / 1000) - 65,
+        amount: "15.78 ADA",
+        age: "1m ago"
+    },
+    {
+        hash: "ef001234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921672,
+        block_time: Math.floor(Date.now() / 1000) - 120,
+        amount: "200.54 ADA",
+        age: "2m ago"
+    },
+    {
+        hash: "f0001234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921672,
+        block_time: Math.floor(Date.now() / 1000) - 125,
+        amount: "45.67 ADA",
+        age: "2m ago"
+    },
+    {
+        hash: "01001234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921671,
+        block_time: Math.floor(Date.now() / 1000) - 180,
+        amount: "120.89 ADA",
+        age: "3m ago"
+    },
+    {
+        hash: "12001234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921671,
+        block_time: Math.floor(Date.now() / 1000) - 185,
+        amount: "8.12 ADA",
+        age: "3m ago"
+    },
+    {
+        hash: "23001234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921670,
+        block_time: Math.floor(Date.now() / 1000) - 240,
+        amount: "375.22 ADA",
+        age: "4m ago"
+    },
+    {
+        hash: "34001234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        block_height: 8921670,
+        block_time: Math.floor(Date.now() / 1000) - 245,
+        amount: "64.35 ADA",
+        age: "4m ago"
+    }
+];
 
-// CardanoScan API Key (Replace with your actual API Key)
-const CARDANOSCAN_API_KEY = 'd2fdc55e-c294-46bb-8f27-57ef1c15525a';
+const mockStats: NetworkStats = {
+    tps: 1,
+    tpsChange: 0,
+    nodes: 3000,
+    nodesChange: 0,
+    blockTime: 20,
+    blockTimeChange: 0,
+    contracts: 500,
+    contractsChange: 0,
+};
 
 export function useCardanoData() {
     const [blocks, setBlocks] = useState<Block[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [stats, setStats] = useState<NetworkStats>({ // Corrected line
+    const [stats, setStats] = useState<NetworkStats>({
       tps: 0,
       tpsChange: 0,
       nodes: 0,
@@ -77,80 +200,98 @@ export function useCardanoData() {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [useMockData, setUseMockData] = useState(true); // Default to using mock data since API endpoints are placeholders
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 setLoading(true);
 
-                // *** Replace these with actual CardanoScan API calls ***
-
-                // Fetch Latest Blocks (Example - inspect CardanoScan network requests)
-                const blocksResponse = await fetch(`https://cardanoscan.io/latest_blocks_api_endpoint?apiKey=${CARDANOSCAN_API_KEY}`); // Replace with actual API endpoint
-                const blocksData = await blocksResponse.json();  // Adjust parsing based on actual response format
-
-
-                if (blocksData && Array.isArray(blocksData.blocks)) {
-                    const processedBlocks: Block[] = blocksData.blocks.map((block: any) => {
-
-                        return {
-                            id: block.hash,
-                            age: formatAge(block.timestamp), // Adjust property names based on response
-                            transactions: block.tx_count.toString(),
-                            size: (block.size / 1024).toFixed(2) + ' KB',  // Adjust property names based on response
-                            block_height: block.block_height,
-                            block_time: block.block_time
-                        };
-                    }).slice(0, 5);
-                    setBlocks(processedBlocks);
-                } else {
-                    console.warn("Failed to fetch or process block data from CardanoScan");
+                // If we're using mock data, just set it and return early
+                if (useMockData) {
+                    setBlocks(mockBlocks);
+                    setTransactions(mockTransactions);
+                    setStats(mockStats);
+                    return;
                 }
 
-                // Fetch Latest Transactions (Example - inspect CardanoScan network requests)
-                const transactionsResponse = await fetch(`https://cardanoscan.io/latest_transactions_api_endpoint?apiKey=${CARDANOSCAN_API_KEY}`); // Replace with actual API endpoint
-                const transactionsData = await transactionsResponse.json(); // Adjust parsing based on actual response format
+                // The following API calls are NOT active, this is retained for reference
+                // when proper API endpoints become available
+                
+                /* 
+                // CardanoScan API Key (Replace with your actual API Key)
+                const CARDANOSCAN_API_KEY = 'd2fdc55e-c294-46bb-8f27-57ef1c15525a';
 
-                if (transactionsData && Array.isArray(transactionsData.transactions)) {
-                    const processedTransactions: Transaction[] = transactionsData.transactions.map((transaction: any) => {
+                try {
+                    // Fetch Latest Blocks
+                    const blocksResponse = await fetch(`https://cardanoscan.io/latest_blocks_api_endpoint?apiKey=${CARDANOSCAN_API_KEY}`);
+                    
+                    // Check content type to ensure we're getting JSON
+                    const contentType = blocksResponse.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        console.error("Response is not JSON:", contentType);
+                        throw new Error("API response is not JSON");
+                    }
+                    
+                    const blocksData = await blocksResponse.json();
 
-                        return {
-                            hash: transaction.hash,
-                            block_height: transaction.block_height,
-                            block_time: transaction.block_time,
-                            amount: transaction.amount, // Adjust property names based on response
-                            age: formatAge(transaction.timestamp),  // Adjust property names based on response
-                        };
-                    }).slice(0, 10);;
+                    if (blocksData && Array.isArray(blocksData.blocks)) {
+                        const processedBlocks: Block[] = blocksData.blocks.map((block: any) => {
+                            return {
+                                id: block.hash,
+                                age: formatAge(block.timestamp),
+                                transactions: block.tx_count.toString(),
+                                size: (block.size / 1024).toFixed(2) + ' KB',
+                                block_height: block.block_height,
+                                block_time: block.block_time
+                            };
+                        }).slice(0, 5);
+                        setBlocks(processedBlocks);
+                    } else {
+                        console.warn("Failed to fetch or process block data from CardanoScan");
+                        throw new Error("Invalid block data format");
+                    }
 
-                    setTransactions(processedTransactions);
-                } else {
-                    console.warn("Failed to fetch or process transaction data from CardanoScan");
+                    // Fetch Latest Transactions
+                    const transactionsResponse = await fetch(`https://cardanoscan.io/latest_transactions_api_endpoint?apiKey=${CARDANOSCAN_API_KEY}`);
+                    
+                    // Check content type to ensure we're getting JSON
+                    const txContentType = transactionsResponse.headers.get('content-type');
+                    if (!txContentType || !txContentType.includes('application/json')) {
+                        console.error("Transactions response is not JSON:", txContentType);
+                        throw new Error("Transactions API response is not JSON");
+                    }
+                    
+                    const transactionsData = await transactionsResponse.json();
+
+                    if (transactionsData && Array.isArray(transactionsData.transactions)) {
+                        const processedTransactions: Transaction[] = transactionsData.transactions.map((transaction: any) => {
+                            return {
+                                hash: transaction.hash,
+                                block_height: transaction.block_height,
+                                block_time: transaction.block_time,
+                                amount: transaction.amount,
+                                age: formatAge(transaction.timestamp),
+                            };
+                        }).slice(0, 10);
+                        setTransactions(processedTransactions);
+                    } else {
+                        console.warn("Failed to fetch or process transaction data from CardanoScan");
+                        throw new Error("Invalid transaction data format");
+                    }
+                } catch (apiError) {
+                    console.error("API request failed, using mock data:", apiError);
+                    throw apiError;
                 }
-
-
-
-                // Fetch Network Stats (Very likely you won't find all these directly)
-                // This is HIGHLY simplified and relies on the CardanoScan website data
-                // You will have to adapt this section significantly
-                const cardanoStats: NetworkStats = {
-                    tps: 1,
-                    tpsChange: 0,
-                    nodes: 3000, // Placeholder
-                    nodesChange: 0,
-                    blockTime: 20, // Average block time
-                    blockTimeChange: 0,
-                    contracts: 500, // Placeholder
-                    contractsChange: 0,
-                };
-
-                setStats(cardanoStats);
-
+                */
 
             } catch (err) {
                 console.error("Error fetching Cardano blockchain data:", err);
                 setError(`Failed to fetch Cardano blockchain data: ${err instanceof Error ? err.message : "Unknown error"}`);
+                // Ensure we have data to display even if API fails
+                setBlocks(mockBlocks);
+                setTransactions(mockTransactions);
+                setStats(mockStats);
             } finally {
                 setLoading(false);
             }
@@ -161,7 +302,7 @@ export function useCardanoData() {
         // Refresh data periodically
         const intervalId = setInterval(fetchData, 30000);
         return () => clearInterval(intervalId);
-    }, []);
+    }, [useMockData]);
 
     return { blocks, transactions, stats, loading, error };
 }
