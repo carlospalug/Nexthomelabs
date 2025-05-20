@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://nexthomelabs.com/sitemap.xml
+
+# Disallow crawling of development/test environments
+User-agent: *
+Disallow: /api/
+
+Disallow: /404
+Disallow: /500
+

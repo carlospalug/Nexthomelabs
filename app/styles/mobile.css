@@ -1,0 +1,219 @@
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+  /* General Layout */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow: visible !important;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Navigation */
+  .site-header {
+    padding: 0.5rem;
+  }
+
+  /* Market Graph Section */
+  .market-graph-container {
+    margin: 0 -1rem;
+    padding: 0 1rem;
+    width: calc(100% + 2rem);
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: flex !important;
+    overflow-x: scroll !important;
+    min-height: 400px;
+  }
+
+  .market-graph-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .market-graph-container > div {
+    flex: 0 0 auto;
+    min-width: 100%;
+    width: 800px !important;
+  }
+
+  .recharts-wrapper {
+    margin: 0;
+    transform: none !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .recharts-surface {
+    overflow: visible;
+  }
+
+  .recharts-legend-wrapper {
+    padding-bottom: 20px !important;
+  }
+
+  /* Team Grid */
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Features Grid */
+  .features-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* News Grid */
+  .news-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Legal Pages */
+  .legal-content {
+    padding: 1rem;
+  }
+
+  .table-of-contents {
+    position: relative !important;
+    top: 0 !important;
+    margin-top: 2rem;
+  }
+
+  /* Buttons and CTAs */
+  .button-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Modal Content */
+  .modal-content {
+    width: 90% !important;
+    margin: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  /* Fix for sticky headers */
+  .sticky-header {
+    position: fixed;
+    width: 100%;
+    z-index: 50;
+  }
+
+  /* Improved touch targets */
+  button, 
+  a {
+    min-height: 44px;
+    padding: 0.5rem;
+  }
+
+  /* Fix for overflowing content */
+  .prose {
+    max-width: 100% !important;
+    overflow-wrap: break-word;
+  }
+
+  /* Responsive images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Responsive tables */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Responsive grids */
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Improved form elements */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevents iOS zoom */
+    max-width: 100%;
+  }
+
+  /* Remove all nested scrolling */
+  section, 
+  div {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Fix for floating elements */
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  /* Scroll behavior */
+  html, body {
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    position: static !important;
+  }
+
+  /* Prevent unwanted scroll restoration */
+  * {
+    scroll-snap-type: none !important;
+  }
+
+  /* Remove scroll containers */
+  .scroll-container,
+  .modal-container {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+
+/* Small phone specific fixes */
+@media screen and (max-width: 380px) {
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  /* Adjust team grid for very small screens */
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.25rem !important;
+  }
+}
+
+/* Landscape mode adjustments */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .market-graph-container {
+    height: 70vh;
+  }
+}
