@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "rm -rf .next && next dev",
-    "build": "rm -rf .next && next build",
+    "dev": "rimraf .next && next dev",
+    "build": "rimraf .next && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -81,6 +81,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "file-loader": "^6.2.0"
+    "file-loader": "^6.2.0",
+    "rimraf": "^5.0.5"
   }
 }
