@@ -222,11 +222,11 @@ export function useWorldChainData() {
     const [tick, setTick] = useState(0); // For live age updates
     const [useMockData, setUseMockData] = useState(false);
 
-    // Modified Alchemy settings - using sepolia testnet instead of mainnet 
-    // as we need to enable the network in Alchemy dashboard
+    // Modified Alchemy settings - using a mainnet network
+    // since Sepolia is not enabled for the provided API key
     const alchemySettings = useMemo(() => ({
         apiKey: "zTxNY6MSDtTbkIuahcuyBeRTUYF5ZzVq",
-        network: Network.ETH_SEPOLIA, // Using Sepolia testnet instead of mainnet
+        network: Network.ETH_MAINNET, // Changed to mainnet from Sepolia
     }), []);
 
     const alchemy = useMemo(() => new Alchemy(alchemySettings), [alchemySettings]);
@@ -332,13 +332,14 @@ export function useWorldChainData() {
                 } catch (apiError: any) {
                     console.error("API request failed:", apiError);
                     
-                    // Check if this is a network/permission error, then use mock data
+                    // Improved error handling for network/permission errors
                     if (apiError.message && (
                         apiError.message.includes("403") || 
                         apiError.message.includes("not enabled") ||
-                        apiError.message.includes("ETH_MAINNET")
+                        apiError.message.includes("ETH_") ||
+                        apiError.message.includes("bad response")
                     )) {
-                        console.log("Network not enabled in Alchemy dashboard, using mock data");
+                        console.log("Network not enabled in Alchemy dashboard or permission error, using mock data");
                         setUseMockData(true);
                         
                         if (isMounted) {

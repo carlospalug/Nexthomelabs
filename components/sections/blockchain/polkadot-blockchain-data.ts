@@ -229,6 +229,15 @@ export function usePolkadotData() {
                         body: JSON.stringify({ row: 5, page: 0 }),
                     });
 
+                    // Check if response is ok before attempting to parse
+                    if (!blocksResponse.ok) {
+                        const statusText = blocksResponse.statusText;
+                        const status = blocksResponse.status;
+                        const responseText = await blocksResponse.text();
+                        console.error(`API request failed with status ${status}: ${statusText}`, responseText);
+                        throw new Error(`API request failed with status ${status}: ${statusText}`);
+                    }
+
                     // First try to get the raw text to see what's being returned
                     const rawBlocksData = await blocksResponse.text();
                     
@@ -267,6 +276,15 @@ export function usePolkadotData() {
                         },
                         body: JSON.stringify({ row: 10, page: 0 }),
                     });
+                    
+                    // Check if response is ok before attempting to parse
+                    if (!transactionsResponse.ok) {
+                        const statusText = transactionsResponse.statusText;
+                        const status = transactionsResponse.status;
+                        const responseText = await transactionsResponse.text();
+                        console.error(`API request failed with status ${status}: ${statusText}`, responseText);
+                        throw new Error(`API request failed with status ${status}: ${statusText}`);
+                    }
                     
                     // First try to get the raw text to see what's being returned
                     const rawTransactionsData = await transactionsResponse.text();
