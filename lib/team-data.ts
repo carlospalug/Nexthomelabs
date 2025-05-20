@@ -309,23 +309,7 @@ export const team: TeamMember[] = [
       "Security Automation",
       "Vulnerability Assessment"
     ],
-    achievements: [
-      {
-        title: "Cybersecurity Excellence",
-        description: "Developed AI-powered threat detection system with 99.8% accuracy",
-        year: 2024
-      },
-      {
-        title: "Innovation Award",
-        description: "Created novel machine learning approach for zero-day vulnerability detection",
-        year: 2023
-      },
-      {
-        title: "Research Recognition",
-        description: "Published groundbreaking research on AI/ML approaches to network security",
-        year: 2022
-      }
-    ],
+    achievements: [],
     publications: [
       {
         title: "Artificial Intelligence in Modern Cybersecurity Frameworks",
