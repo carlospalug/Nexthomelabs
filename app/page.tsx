@@ -37,6 +37,7 @@ export default function Home() {
   const yusuf = team.find(member => member.slug === "yusufabdulhakim");
   const farooq = team.find(member => member.slug === "sseruwufarooq");
   const nicholas = team.find(member => member.slug === "tumwesigyenicholas");
+  const antoniy = team.find(member => member.slug === "antoniykanu");
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -70,8 +71,8 @@ export default function Home() {
               Meet Our Visionaries
             </h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[ohood, yusuf, farooq, nicholas].map((member) => member && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+              {[ohood, yusuf, farooq, nicholas, antoniy].map((member) => member && (
                 <div key={member.id} className="flex flex-col items-center">
                   <div className="relative aspect-square w-full max-w-[300px] rounded-xl overflow-hidden mb-6">
                     <Image
@@ -89,6 +90,8 @@ export default function Home() {
                         `"The true power of AI lies not in replacing human intelligence, but in amplifying our capacity to solve complex challenges."` :
                       member.slug === "sseruwufarooq" ?
                         `"Building robust and scalable systems is an art that combines technical excellence with deep understanding of user needs."` :
+                      member.slug === "antoniykanu" ?
+                        `"At the intersection of AI and security lies the future of digital resilience, where intelligent systems protect as much as they empower."` :
                         `"Technology advocacy is about bridging the gap between innovation and understanding, making advanced solutions accessible to all."`
                       }
                     </p>
