@@ -291,5 +291,62 @@ export const team: TeamMember[] = [
       "Community Management Expert"
     ],
     twitterlink: "https://x.com/TumwesigyeNicholas"
+  },
+  {
+    id: 7,
+    name: "Antoniy Kanu",
+    slug: "antoniykanu",
+    role: "AI & Cybersecurity Specialist",
+    image: "https://i.imgur.com/DCTv0I3.png",
+    email: "antoniy.kanu@nexthomelabs.com",
+    shortDescription: "Tech professional blending expertise in AI and cybersecurity, driven to design intelligent solutions that protect and empower the digital world.",
+    longDescription: "Antoniy brings a unique blend of expertise in artificial intelligence and cybersecurity to NextHomeLabs. His innovative approach to developing secure AI systems has positioned him as a valuable asset to the team. With a focus on creating robust solutions that can withstand evolving digital threats, Antoniy works at the critical intersection of advanced AI capabilities and comprehensive security frameworks.",
+    expertise: [
+      "AI Security Integration",
+      "Threat Intelligence",
+      "Machine Learning for Cybersecurity",
+      "Penetration Testing",
+      "Security Automation",
+      "Vulnerability Assessment"
+    ],
+    achievements: [
+      {
+        title: "Cybersecurity Excellence",
+        description: "Developed AI-powered threat detection system with 99.8% accuracy",
+        year: 2024
+      },
+      {
+        title: "Innovation Award",
+        description: "Created novel machine learning approach for zero-day vulnerability detection",
+        year: 2023
+      },
+      {
+        title: "Research Recognition",
+        description: "Published groundbreaking research on AI/ML approaches to network security",
+        year: 2022
+      }
+    ],
+    publications: [
+      {
+        title: "Artificial Intelligence in Modern Cybersecurity Frameworks",
+        publisher: "Journal of Cybersecurity Innovation",
+        year: 2024,
+        link: "https://example.com/ai-cybersecurity-frameworks"
+      },
+      {
+        title: "Machine Learning Approaches to Vulnerability Detection",
+        publisher: "International Conference on AI Security",
+        year: 2023,
+        link: "https://example.com/ml-vulnerability-detection"
+      }
+    ],
+    certifications: [
+      "Certified Information Systems Security Professional (CISSP)",
+      "Certified Ethical Hacker (CEH)",
+      "Offensive Security Certified Professional (OSCP)",
+      "TensorFlow Certified Developer"
+    ],
+    twitterlink: "https://x.com/antoniykanu",
+    linkedInLink: "https://www.linkedin.com/in/antoniykanu"
   }
 ];
