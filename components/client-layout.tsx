@@ -4,11 +4,11 @@ import React from 'react'
 
 interface ClientLayoutProps {
   children: React.ReactNode;
-  detectedLanguage: string;
+  defaultLanguage: string; // Changed from detectedLanguage to defaultLanguage to match app/layout.tsx
 }
 
-export function ClientLayout({ children, detectedLanguage }: ClientLayoutProps) {
-  // Now we have the detectedLanguage as a prop, not from headers()
+export function ClientLayout({ children, defaultLanguage }: ClientLayoutProps) {
+  // Now we have the defaultLanguage as a prop, matching how it's passed in layout.tsx
   return (
     <>
       {children}

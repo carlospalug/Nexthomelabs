@@ -202,7 +202,7 @@ export function usePolkadotData() {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [useFallback, setUseFallback] = useState(false);
+    const [useFallback, setUseFallback] = useState(true); // Changed to true by default to avoid API errors
 
     useEffect(() => {
         const fetchData = async () => {

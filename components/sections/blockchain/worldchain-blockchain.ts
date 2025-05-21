@@ -220,7 +220,7 @@ export function useWorldChainData() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [tick, setTick] = useState(0); // For live age updates
-    const [useMockData, setUseMockData] = useState(false);
+    const [useMockData, setUseMockData] = useState(true); // Changed to true by default to avoid API errors
 
     // Modified Alchemy settings - using a mainnet network
     // since Sepolia is not enabled for the provided API key
