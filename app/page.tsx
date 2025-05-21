@@ -10,27 +10,27 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from '@/components/ui/button';
 import { team } from '@/lib/team-data';
 
-// Import all section components
+// Import all section components in logical order
 import { ChatInterfaceSection } from "@/components/sections/chat-interface-section";
 import { HeroSection } from "@/components/sections/hero-section";
+import { OffersSection } from "@/components/sections/offers-section";
 import { FeaturesSection } from "@/components/sections/features-section";
 import { WhyAISection } from "@/components/sections/why-ai-section";
 import { MarketGraphSection } from "@/components/sections/market-graph-section";
 import { AIServicesSection } from "@/components/sections/ai-services-section";
 import { WebDevSection } from "@/components/sections/web-dev-section";
-import { EmpoweringSection } from "@/components/sections/empowering-section";
-import { PartnersSection } from "@/components/sections/partners-section";
-import { ResearchSection } from "@/components/sections/research-section";
 import { CentGPTSection } from "@/components/sections/cent-gpt-section";
-import { NewsSection } from "@/components/sections/news-section";
-import { OffersSection } from "@/components/sections/offers-section";
-import { RegionalFocusSection } from "@/components/sections/regional-focus-section";
-import { BlockchainExplorerSection } from "@/components/sections/blockchain-explorer-section";
 import { CaseStudiesSection } from "@/components/sections/case-studies-section";
-import { LearningHubSection } from "@/components/sections/learning-hub-section";
+import { ResearchSection } from "@/components/sections/research-section";
+import { BlockchainExplorerSection } from "@/components/sections/blockchain-explorer-section";
 import { TechStackSection } from "@/components/sections/tech-stack-section";
 import { InnovationLabSection } from "@/components/sections/innovation-lab-section";
+import { LearningHubSection } from "@/components/sections/learning-hub-section";
+import { NewsSection } from "@/components/sections/news-section";
+import { RegionalFocusSection } from "@/components/sections/regional-focus-section";
 import { SustainabilitySection } from "@/components/sections/sustainability-section";
+import { EmpoweringSection } from "@/components/sections/empowering-section";
+import { PartnersSection } from "@/components/sections/partners-section";
 
 export default function Home() {
   const ohood = team.find(member => member.slug === "ohoodrichard");
@@ -43,26 +43,41 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white">
       <SiteHeader />
       <main className="flex min-h-screen flex-col">
+        {/* Main user interaction section */}
         <ChatInterfaceSection />
+        
+        {/* Core introduction */}
         <HeroSection />
+        
+        {/* Key business offerings */}
         <OffersSection />
         <FeaturesSection />
         <WhyAISection />
+        
+        {/* Market and services sections */}
         <MarketGraphSection />
         <AIServicesSection />
         <WebDevSection />
-        <EmpoweringSection />
-        <PartnersSection />
-        <ResearchSection />
+        
+        {/* Product showcase */}
         <CentGPTSection />
-        <NewsSection />
-        <RegionalFocusSection />
-        <BlockchainExplorerSection />
         <CaseStudiesSection />
-        <LearningHubSection />
+        
+        {/* Knowledge and expertise sections */}
+        <ResearchSection />
+        <BlockchainExplorerSection />
         <TechStackSection />
         <InnovationLabSection />
+        <LearningHubSection />
+        
+        {/* News and regional information */}
+        <NewsSection />
+        <RegionalFocusSection />
+        
+        {/* Additional value sections */}
         <SustainabilitySection />
+        <EmpoweringSection />
+        <PartnersSection />
         
         {/* Team Section */}
         <section className="bg-black py-24">
