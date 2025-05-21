@@ -1,0 +1,75 @@
+{
+  "navigation": {
+    "research": "Okunoonyereza",
+    "products": "Ebirungo",
+    "company": "Kompuni",
+    "contact": "Tuukirire",
+    "tryCentGPT": "Gezaako CentGPT"
+  },
+  "hero": {
+    "title": "NextHome Labs",
+    "subtitle": "Abakulembera mu Kuyiiya mu Tekinologiya y'Afrika",
+    "description": "Kyusa bizinensi yo n'enzijanjalo zaffe eza AI, blockchain, ne sisitemu z'amakolero. Tukulembera mu ntambula y'ebyatekinologiya okwetooloola Afrika, nga tuwa obuzimba obuyiiya obukuza entambula n'obukozi.",
+    "buttons": {
+      "getStarted": "Tandika",
+      "discoverMore": "Zula Ebisingawo"
+    },
+    "stats": {
+      "aiModels": "Ebitendo bya AI",
+      "globalPartners": "Bannywanyi b'ensi",
+      "support": "Obuyambi"
+    }
+  },
+  "values": {
+    "problemSolvers": {
+      "title": "Abalondawo Ebizibu",
+      "description": "Tutegeera era tulondawo ebizibu byo ebikulu eby'etekinologiya"
+    },
+    "secure": {
+      "title": "Bikuumiddwa & Bitegeekekeka",
+      "description": "Okukuuma n'obwesigwa ku mutindo gw'amakolero kiri kikakase"
+    },
+    "fast": {
+      "title": "Okuteekawo Amangu",
+      "description": "Okuteekawo amangu okukendeeza okutawanya mu bizinensi"
+    },
+    "support": {
+      "title": "Obuyambi 24/7",
+      "description": "Obuyambi bw'abamanyi bwe weetaaga ennyo"
+    }
+  },
+  "features": {
+    "title": "Okukyusa Enkya",
+    "ai": {
+      "title": "Amagezi Amagonge",
+      "description": "Enziyanjalo z'AI ensaasaanya ezikozesa omulembe oguddako ogw'aplikeesheni"
+    },
+    "blockchain": {
+      "title": "Tekinologiya ya Blockchain",
+      "description": "Sisitemu zikuumiddwa, ntangaavu, era za desentralize olw'omulembe ogujja"
+    },
+    "global": {
+      "title": "Akabi k'Ensi Yonna",
+      "description": "Okuyiiyayiiya enziyanjalo ezisukka ku nsalo era okukyusa obulamu"
+    }
+  },
+  "trust": {
+    "title": "Batukkiriza Ebitongole Ebikulembera",
+    "description": "Weegatte ku bizinensi ebisukka mu bikumi ebikkiriza NextHomeLabs olw'enziyanjalo ez'etekinologiya ezikuumiddwa era ez'obuyiiya",
+    "clientsCount": "Abasuubuzi abamatidwa",
+    "projectsCount": "Puloojekiti ezimaliddwa",
+    "awardsCount": "Ebirabo by'abamakolero",
+    "cta": {
+      "text": "Oli mweteefuteefu okukyusa bizinensi yo n'enziyanjalo z'etekinologiya ezikuumiddwa era ez'obuyiiya?",
+      "button": "Tandika Olugendo lwo"
+    }
+  },
+  "footer": {
+    "company": "Kampuni",
+    "solutions": "Enziyanjalo",
+    "research": "Okunoonyereza",
+    "legal": "Amateeka",
+    "contact": "Tuukirire",
+    "copyright": "Eddembe lyonna ddukuumiddwa"
+  }
+}

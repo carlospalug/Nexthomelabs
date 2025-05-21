@@ -1,0 +1,75 @@
+{
+  "navigation": {
+    "research": "Utafiti",
+    "products": "Bidhaa",
+    "company": "Kampuni",
+    "contact": "Wasiliana",
+    "tryCentGPT": "Jaribu CentGPT"
+  },
+  "hero": {
+    "title": "NextHome Labs",
+    "subtitle": "Kiongozi wa Uvumbuzi katika Teknolojia ya Afrika",
+    "description": "Badilisha biashara yako kwa suluhisho zetu za kisasa za AI, blockchain, na mifumo ya biashara. Tunaongoza maendeleo ya teknolojia Afrika nzima, tukitoa suluhisho bunifu zinazochochea ukuaji na ufanisi.",
+    "buttons": {
+      "getStarted": "Anza",
+      "discoverMore": "Gundua Zaidi"
+    },
+    "stats": {
+      "aiModels": "Modeli za AI",
+      "globalPartners": "Washirika wa Kimataifa",
+      "support": "Usaidizi"
+    }
+  },
+  "values": {
+    "problemSolvers": {
+      "title": "Wasuluhishaji wa Matatizo",
+      "description": "Tunatambua na kusuluhisha changamoto zako ngumu zaidi za kiufundi"
+    },
+    "secure": {
+      "title": "Salama & ya Kutegemewa",
+      "description": "Usalama na utegemezi wa kiwango cha biashara unaodhaminiwa"
+    },
+    "fast": {
+      "title": "Utekelezaji wa Haraka",
+      "description": "Ufungaji wa haraka unaopunguza usumbufu wa biashara"
+    },
+    "support": {
+      "title": "Usaidizi 24/7",
+      "description": "Usaidizi wa kitaalamu saa 24 unapouhitaji zaidi"
+    }
+  },
+  "features": {
+    "title": "Kubadilisha Kesho",
+    "ai": {
+      "title": "Akili Bandia",
+      "description": "Suluhisho za AI za kisasa zinazosimamia kizazi kijacho cha programu"
+    },
+    "blockchain": {
+      "title": "Teknolojia ya Blockchain",
+      "description": "Mifumo salama, wazi, na isiyosambazwa kwa siku zijazo"
+    },
+    "global": {
+      "title": "Athari za Kimataifa",
+      "description": "Kuunda suluhisho zinazovuka mipaka na kubadilisha maisha"
+    }
+  },
+  "trust": {
+    "title": "Inaaminiwa na Mashirika Yanayoongoza",
+    "description": "Jiunge na biashara zaidi ya mia moja zinazotegemea NextHomeLabs kwa ajili ya suluhisho salama na bunifu za teknolojia",
+    "clientsCount": "Wateja walioridhika",
+    "projectsCount": "Miradi iliyokamilika",
+    "awardsCount": "Tuzo za tasnia",
+    "cta": {
+      "text": "Uko tayari kubadilisha biashara yako kwa suluhisho salama na bunifu za teknolojia?",
+      "button": "Anza Safari yako"
+    }
+  },
+  "footer": {
+    "company": "Kampuni",
+    "solutions": "Suluhisho",
+    "research": "Utafiti",
+    "legal": "Kisheria",
+    "contact": "Wasiliana Nasi",
+    "copyright": "Haki zote zimehifadhiwa"
+  }
+}

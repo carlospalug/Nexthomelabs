@@ -53,12 +53,17 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   
-  // Removed headers configuration since it's incompatible with static exports
-  
   // Environment variables configuration
   env: {
     GOOGLE_VERIFICATION_CODE: process.env.META_G002,
     BING_VERIFICATION_CODE: process.env.META_B39,
+  },
+  
+  // Internationalization
+  i18n: {
+    locales: ['en', 'fr', 'sw', 'lg'],
+    defaultLocale: 'en',
+    localeDetection: true,
   },
 
   // Webpack configuration with cache control

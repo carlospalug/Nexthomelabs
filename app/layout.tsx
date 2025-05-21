@@ -4,6 +4,11 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClientLayout } from "@/components/client-layout";
 import Script from 'next/script';
+import { NextIntlClientProvider } from 'next-intl';
+import { createTranslator } from 'next-intl';
+import { headers } from 'next/headers';
+
+import '../lib/i18n';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,100 +41,130 @@ const organizationSchema = {
   ]
 };
 
-// Static metadata configuration
-export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nexthomelabs.com'),
-  title: {
-    default: 'NextHomeLabs | Leading African AI & Blockchain Innovation Hub',
-    template: '%s | NextHomeLabs'
-  },
-  description: 'Africa\'s premier AI and blockchain innovation hub, transforming industries with cutting-edge technology solutions.',
-  keywords: [
-    'AI in Africa',
-    'Blockchain Solutions',
-    'Web Development Uganda',
-    'Enterprise Systems',
-    'CentGPT',
-    'African Tech Innovation'
-  ],
-  authors: [{ name: 'NextHomeLabs Team' }],
-  openGraph: {
-    type: 'website',
-    siteName: 'NextHomeLabs',
-    locale: 'en_US',
-    url: 'https://nexthomelabs.com',
-    title: 'NextHomeLabs | AI, Blockchain, and Web Development Solutions in Africa',
-    description: 'Discover how NextHomeLabs is transforming industries with cutting-edge AI, blockchain, and web development solutions.',
-    images: [
-      {
-        url: 'https://i.ibb.co/HNHDVZS/nhl934-e559d97359102662b413-1.png',
-        width: 1200,
-        height: 630,
-        alt: 'NextHomeLabs - Innovation at Your Fingertips',
-      },
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = headers();
+  // Get region and location from headers (set by middleware)
+  const region = headersList.get('x-site-region') || 'Africa';
+  const location = headersList.get('x-site-location') || 'Made in Africa';
+  const title = headersList.get('x-site-title') || 'NextHomeLabs | Leading African AI & Blockchain Innovation Hub';
+  const description = headersList.get('x-site-description') || 'Africa\'s premier AI and blockchain innovation hub, transforming industries with cutting-edge technology solutions.';
+  const detectedLanguage = headersList.get('x-detected-language') || 'en';
+  
+  const metadataBase = new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nexthomelabs.com');
+  
+  // Build language alternates
+  const languages = ['en', 'fr', 'sw', 'lg'];
+  const alternates: Record<string, string> = {};
+  
+  languages.forEach(lang => {
+    if (lang === 'en') {
+      alternates[lang] = `${metadataBase}`;
+    } else {
+      alternates[lang] = `${metadataBase}/${lang}`;
+    }
+  });
+  
+  return {
+    metadataBase,
+    title: {
+      default: title,
+      template: '%s | NextHomeLabs'
+    },
+    description,
+    keywords: [
+      'AI in Africa',
+      'Blockchain Solutions',
+      'Web Development Uganda',
+      'Enterprise Systems',
+      'CentGPT',
+      'African Tech Innovation',
+      region + ' Technology',
+      location
     ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@NextHomeLabs',
-    creator: '@NextHomeLabs',
-    title: 'NextHomeLabs | Leading African AI & Blockchain Innovation Hub',
-    description: 'Africa\'s premier AI and blockchain innovation hub, transforming industries with cutting-edge technology solutions.',
-    images: ['https://i.ibb.co/HNHDVZS/nhl934-e559d97359102662b413-1.png'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: true,
-    googleBot: {
+    authors: [{ name: 'NextHomeLabs Team' }],
+    openGraph: {
+      type: 'website',
+      siteName: 'NextHomeLabs',
+      locale: detectedLanguage,
+      url: metadataBase.toString(),
+      title: title,
+      description: description,
+      images: [
+        {
+          url: 'https://i.ibb.co/HNHDVZS/nhl934-e559d97359102662b413-1.png',
+          width: 1200,
+          height: 630,
+          alt: 'NextHomeLabs - Innovation at Your Fingertips',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@NextHomeLabs',
+      creator: '@NextHomeLabs',
+      title: title,
+      description: description,
+      images: ['https://i.ibb.co/HNHDVZS/nhl934-e559d97359102662b413-1.png'],
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      nocache: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
-  verification: {
-    google: 'googled478c25ec6571d47',
-  },
-  alternates: {
-    canonical: 'https://nexthomelabs.com'
-  },
-  manifest: '/site.webmanifest',
-  appleWebApp: {
-    title: 'NextHomeLabs',
-    statusBarStyle: 'black-translucent',
-    startupImage: [
-      {
-        url: '/apple-splash-2048-2732.jpg',
-        media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)'
-      }
-    ],
-    capable: true,
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    minimumScale: 1,
-  },
-  themeColor: '#000000',
-  formatDetection: {
-    telephone: true,
-    date: true,
-    address: true,
-    email: true,
-    url: true,
-  }
-} satisfies Metadata;
+    verification: {
+      google: 'googled478c25ec6571d47',
+    },
+    alternates: {
+      canonical: metadataBase.toString(),
+      languages: alternates
+    },
+    manifest: '/site.webmanifest',
+    appleWebApp: {
+      title: 'NextHomeLabs',
+      statusBarStyle: 'black-translucent',
+      startupImage: [
+        {
+          url: '/apple-splash-2048-2732.jpg',
+          media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)'
+        }
+      ],
+      capable: true,
+    },
+    viewport: {
+      width: 'device-width',
+      initialScale: 1,
+      maximumScale: 5,
+      minimumScale: 1,
+    },
+    themeColor: '#000000',
+    formatDetection: {
+      telephone: true,
+      date: true,
+      address: true,
+      email: true,
+      url: true,
+    }
+  };
+}
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Detect language from headers or default to 'en'
+  const headersList = headers();
+  const detectedLanguage = headersList.get('x-detected-language') || 'en';
+  
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+    <html lang={detectedLanguage} suppressHydrationWarning className="scroll-smooth">
       <head>
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="canonical" href="https://nexthomelabs.com" />
@@ -154,6 +189,13 @@ export default function RootLayout({
         {/* Additional SEO Meta Tags */}
         <meta name="news_keywords" content="African Technology, AI Africa, Blockchain Africa, Innovation Hub, Uganda Tech" />
         <meta name="application-name" content="NextHomeLabs" />
+        
+        {/* Language alternates */}
+        <link rel="alternate" hrefLang="en" href="https://nexthomelabs.com" />
+        <link rel="alternate" hrefLang="fr" href="https://nexthomelabs.com/fr" />
+        <link rel="alternate" hrefLang="sw" href="https://nexthomelabs.com/sw" />
+        <link rel="alternate" hrefLang="lg" href="https://nexthomelabs.com/lg" />
+        <link rel="alternate" hrefLang="x-default" href="https://nexthomelabs.com" />
       </head>
       <body className={`${inter.className} overflow-x-hidden`} suppressHydrationWarning>
         <Script

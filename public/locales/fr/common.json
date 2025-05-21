@@ -1,0 +1,75 @@
+{
+  "navigation": {
+    "research": "Recherche",
+    "products": "Produits",
+    "company": "Entreprise",
+    "contact": "Contact",
+    "tryCentGPT": "Essayer CentGPT"
+  },
+  "hero": {
+    "title": "NextHome Labs",
+    "subtitle": "À la pointe de l'innovation technologique en Afrique",
+    "description": "Transformez votre entreprise grâce à nos solutions de pointe en IA, blockchain et systèmes d'entreprise. Nous sommes pionniers dans l'avancement technologique à travers l'Afrique, en proposant des solutions innovantes qui stimulent la croissance et l'efficacité.",
+    "buttons": {
+      "getStarted": "Commencer",
+      "discoverMore": "En savoir plus"
+    },
+    "stats": {
+      "aiModels": "Modèles d'IA",
+      "globalPartners": "Partenaires mondiaux",
+      "support": "Assistance"
+    }
+  },
+  "values": {
+    "problemSolvers": {
+      "title": "Résolution de problèmes",
+      "description": "Nous identifions et résolvons vos défis techniques les plus complexes"
+    },
+    "secure": {
+      "title": "Sécurisé et fiable",
+      "description": "Sécurité et fiabilité de niveau entreprise garanties"
+    },
+    "fast": {
+      "title": "Implémentation rapide",
+      "description": "Déploiement rapide qui minimise les perturbations commerciales"
+    },
+    "support": {
+      "title": "Support 24/7",
+      "description": "Support expert disponible à tout moment"
+    }
+  },
+  "features": {
+    "title": "Transformer le futur",
+    "ai": {
+      "title": "Intelligence Artificielle",
+      "description": "Solutions d'IA avancées pour la prochaine génération d'applications"
+    },
+    "blockchain": {
+      "title": "Technologie Blockchain",
+      "description": "Systèmes sécurisés, transparents et décentralisés pour l'avenir"
+    },
+    "global": {
+      "title": "Impact Mondial",
+      "description": "Créer des solutions qui traversent les frontières et transforment des vies"
+    }
+  },
+  "trust": {
+    "title": "Faites confiance par des Organisations de Premier Plan",
+    "description": "Rejoignez des centaines d'entreprises qui font confiance à NextHomeLabs pour des solutions technologiques sécurisées et innovantes",
+    "clientsCount": "Clients satisfaits",
+    "projectsCount": "Projets réalisés",
+    "awardsCount": "Prix de l'industrie",
+    "cta": {
+      "text": "Prêt à transformer votre entreprise avec des solutions technologiques sécurisées et innovantes?",
+      "button": "Commencez votre parcours"
+    }
+  },
+  "footer": {
+    "company": "Entreprise",
+    "solutions": "Solutions",
+    "research": "Recherche",
+    "legal": "Légal",
+    "contact": "Contactez-nous",
+    "copyright": "Tous droits réservés"
+  }
+}

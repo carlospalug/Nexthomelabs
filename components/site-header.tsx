@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Menu, Mail, MapPin, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { LanguageSwitcher } from "./language-switcher";
+import { useTranslation } from 'react-i18next';
 
 const researchTopics = [
   {
@@ -118,6 +120,7 @@ export function SiteHeader() {
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const hoverTimeoutRef = useRef<NodeJS.Timeout>();
+  const { t } = useTranslation('common');
 
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
@@ -140,6 +143,18 @@ export function SiteHeader() {
       setSiteLocation('Ugandan');
     } else {
       setSiteLocation('African');
+    }
+    
+    // Parse Accept-Language header
+    if (typeof window !== 'undefined' && navigator.language) {
+      const userLang = navigator.language.split('-')[0];
+      // You could use this language to set initial state or send to API
+    }
+    
+    // Get language from headers set by middleware
+    const detectedLanguage = document.documentElement.lang || 'en';
+    if (detectedLanguage) {
+      // You could use this information for analytics or to enhance user experience
     }
   }, []);
 
@@ -277,7 +292,7 @@ export function SiteHeader() {
               <X className="w-6 h-6" />
             </button>
 
-            <h2 className="text-2xl font-bold mb-6">Contact Us</h2>
+            <h2 className="text-2xl font-bold mb-6">{t('footer.contact')}</h2>
             
             <div className="space-y-6">
               {/* Email Contacts */}
@@ -418,7 +433,7 @@ export function SiteHeader() {
                 onMouseEnter={() => handleMenuHover('research')}
                 onMouseLeave={handleMenuLeave}
               >
-                Research
+                {t('navigation.research')}
               </button>
               <button
                 ref={(el) => buttonRefs.current['products'] = el}
@@ -428,7 +443,7 @@ export function SiteHeader() {
                 onMouseEnter={() => handleMenuHover('products')}
                 onMouseLeave={handleMenuLeave}
               >
-                Products
+                {t('navigation.products')}
               </button>
               <button
                 ref={(el) => buttonRefs.current['company'] = el}
@@ -438,37 +453,41 @@ export function SiteHeader() {
                 onMouseEnter={() => handleMenuHover('company')}
                 onMouseLeave={handleMenuLeave}
               >
-                Company
+                {t('navigation.company')}
               </button>
             </div>
           </div>
 
           <div className="hidden md:flex items-center gap-4 relative z-50">
+            <LanguageSwitcher />
             <Button 
               variant="ghost" 
               className="text-gray-300 hover:text-white relative overflow-hidden"
               onClick={() => setShowContactInfo(true)}
             >
-              <span className="relative z-10">Contact</span>
+              <span className="relative z-10">{t('navigation.contact')}</span>
               <span className="absolute inset-0 w-0 bg-[#00E6E6]/10 group-hover:w-full transition-all duration-300"></span>
             </Button>
             <Link href="https://centgpt.com" target="_blank">
               <Button 
                 className="bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black relative overflow-hidden group"
               >
-                <span className="relative z-10">Try CentGPT</span>
+                <span className="relative z-10">{t('navigation.tryCentGPT')}</span>
                 <span className="absolute inset-0 w-0 bg-black/10 group-hover:w-full transition-all duration-300"></span>
               </Button>
             </Link>
           </div>
 
-          <button
-            className="md:hidden relative z-50 p-2 rounded-md hover:bg-[#00E6E6]/10 transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          >
-            <Menu className="h-6 w-6" />
-          </button>
+          <div className="md:hidden flex items-center gap-2 relative z-50">
+            <LanguageSwitcher />
+            <button
+              className="relative z-50 p-2 rounded-md hover:bg-[#00E6E6]/10 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
         </nav>
 
         <AnimatePresence>
@@ -483,7 +502,7 @@ export function SiteHeader() {
               <div className="px-6 py-20 space-y-4 max-h-screen overflow-y-auto">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">Research</p>
+                    <p className="text-sm font-medium text-gray-400">{t('navigation.research')}</p>
                     {researchTopics.map((topic, i) => (
                       <motion.button
                         key={topic.title}
@@ -499,7 +518,7 @@ export function SiteHeader() {
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">Products</p>
+                    <p className="text-sm font-medium text-gray-400">{t('navigation.products')}</p>
                     {productsMenu.map((item, i) => (
                       <motion.button
                         key={item.title}
@@ -515,7 +534,7 @@ export function SiteHeader() {
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">Company</p>
+                    <p className="text-sm font-medium text-gray-400">{t('navigation.company')}</p>
                     {companyMenu.map((item, i) => (
                       <motion.button
                         key={item.title}
@@ -542,13 +561,13 @@ export function SiteHeader() {
                     className="w-full text-gray-300 hover:text-white"
                     onClick={() => setShowContactInfo(true)}
                   >
-                    Contact
+                    {t('navigation.contact')}
                   </Button>
                   <Link href="https://centgpt.com" target="_blank">
                     <Button 
                       className="w-full bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black"
                     >
-                      Try CentGPT
+                      {t('navigation.tryCentGPT')}
                     </Button>
                   </Link>
                 </motion.div>

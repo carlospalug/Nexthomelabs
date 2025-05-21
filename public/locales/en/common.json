@@ -1,0 +1,75 @@
+{
+  "navigation": {
+    "research": "Research",
+    "products": "Products",
+    "company": "Company",
+    "contact": "Contact",
+    "tryCentGPT": "Try CentGPT"
+  },
+  "hero": {
+    "title": "NextHome Labs",
+    "subtitle": "Leading Innovation in African Technology",
+    "description": "Transform your business with our cutting-edge AI, blockchain, and enterprise solutions. We're pioneering technological advancement across Africa, delivering innovative solutions that drive growth and efficiency.",
+    "buttons": {
+      "getStarted": "Get Started",
+      "discoverMore": "Discover More"
+    },
+    "stats": {
+      "aiModels": "AI Models",
+      "globalPartners": "Global Partners",
+      "support": "Support"
+    }
+  },
+  "values": {
+    "problemSolvers": {
+      "title": "Problem Solvers",
+      "description": "We identify and solve your most complex technical challenges"
+    },
+    "secure": {
+      "title": "Secure & Reliable",
+      "description": "Enterprise-grade security and reliability guaranteed"
+    },
+    "fast": {
+      "title": "Fast Implementation",
+      "description": "Quick deployment that minimizes business disruption"
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Round-the-clock expert support when you need it most"
+    }
+  },
+  "features": {
+    "title": "Transforming Tomorrow",
+    "ai": {
+      "title": "Artificial Intelligence",
+      "description": "Advanced AI solutions powering the next generation of applications"
+    },
+    "blockchain": {
+      "title": "Blockchain Technology",
+      "description": "Secure, transparent, and decentralized systems for the future"
+    },
+    "global": {
+      "title": "Global Impact",
+      "description": "Creating solutions that reach across borders and transform lives"
+    }
+  },
+  "trust": {
+    "title": "Trusted by Leading Organizations",
+    "description": "Join hundreds of businesses that rely on NextHomeLabs for secure, innovative technology solutions",
+    "clientsCount": "Satisfied Clients",
+    "projectsCount": "Projects Completed",
+    "awardsCount": "Industry Awards",
+    "cta": {
+      "text": "Ready to transform your business with secure and innovative technology solutions?",
+      "button": "Start Your Journey"
+    }
+  },
+  "footer": {
+    "company": "Company",
+    "solutions": "Solutions",
+    "research": "Research",
+    "legal": "Legal",
+    "contact": "Contact Us",
+    "copyright": "All rights reserved"
+  }
+}
