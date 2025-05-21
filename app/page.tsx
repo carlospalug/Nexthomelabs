@@ -73,33 +73,35 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
               {[ohood, yusuf, farooq, nicholas, antoniy].map((member) => member && (
-                <div key={member.id} className="flex flex-col items-center">
-                  <div className="relative aspect-square w-full max-w-[300px] rounded-xl overflow-hidden mb-6">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                    />
+                <Link key={member.id} href={`/team/${member.slug}`}>
+                  <div className="flex flex-col items-center cursor-pointer transition-transform duration-300 hover:scale-105">
+                    <div className="relative aspect-square w-full max-w-[300px] rounded-xl overflow-hidden mb-6">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="px-4 py-3 rounded-lg bg-[#1F2937]/80 backdrop-blur-sm w-full">
+                      <p className="text-gray-300 text-sm leading-relaxed mb-3">
+                        {member.slug === "ohoodrichard" ? 
+                          `"Innovation in technology isn't just about creating solutions; it's about crafting a better future for generations to come."` :
+                        member.slug === "yusufabdulhakim" ?
+                          `"The true power of AI lies not in replacing human intelligence, but in amplifying our capacity to solve complex challenges."` :
+                        member.slug === "sseruwufarooq" ?
+                          `"Building robust and scalable systems is an art that combines technical excellence with deep understanding of user needs."` :
+                        member.slug === "antoniykanu" ?
+                          `"At the intersection of AI and security lies the future of digital resilience, where intelligent systems protect as much as they empower."` :
+                          `"Technology advocacy is about bridging the gap between innovation and understanding, making advanced solutions accessible to all."`
+                        }
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {member.name} <br /> {member.role}
+                      </p>
+                    </div>
                   </div>
-                  <div className="px-4 py-3 rounded-lg bg-[#1F2937]/80 backdrop-blur-sm w-full">
-                    <p className="text-gray-300 text-sm leading-relaxed mb-3">
-                      {member.slug === "ohoodrichard" ? 
-                        `"Innovation in technology isn't just about creating solutions; it's about crafting a better future for generations to come."` :
-                      member.slug === "yusufabdulhakim" ?
-                        `"The true power of AI lies not in replacing human intelligence, but in amplifying our capacity to solve complex challenges."` :
-                      member.slug === "sseruwufarooq" ?
-                        `"Building robust and scalable systems is an art that combines technical excellence with deep understanding of user needs."` :
-                      member.slug === "antoniykanu" ?
-                        `"At the intersection of AI and security lies the future of digital resilience, where intelligent systems protect as much as they empower."` :
-                        `"Technology advocacy is about bridging the gap between innovation and understanding, making advanced solutions accessible to all."`
-                      }
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      {member.name} <br /> {member.role}
-                    </p>
-                  </div>
-                </div>
+                </Link>
               ))}
             </div>
 
