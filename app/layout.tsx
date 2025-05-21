@@ -4,10 +4,6 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClientLayout } from "@/components/client-layout";
 import Script from 'next/script';
-import { NextIntlClientProvider } from 'next-intl';
-import { createTranslator } from 'next-intl';
-
-import '../lib/i18n';
 
 const inter = Inter({ subsets: ['latin'] });
 

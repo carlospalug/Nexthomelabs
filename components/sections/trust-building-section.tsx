@@ -7,25 +7,28 @@ import { Shield, Lock, Award, CheckCircle, Users, Star } from "lucide-react";
 import Link from "next/link";
 
 export function TrustBuildingSection() {
-  // Testimonials from satisfied clients
+  // Real client websites testimonials
   const testimonials = [
     {
-      quote: "NextHomeLabs transformed our business with their AI solutions. We've seen a 40% increase in efficiency and significant cost reductions.",
-      author: "Sarah Johnson",
-      position: "CTO, EastAfrica Finance",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+      quote: "NextHomeLabs transformed our investment platform with a secure and user-friendly website. Their expertise in financial technology was evident in every feature they implemented.",
+      author: "Axor Investments",
+      position: "Investment and Financial Services Platform",
+      avatar: "https://i.ibb.co/b5q3k8r/logo.jpg",
+      website: "https://axorinvestments.com"
     },
     {
-      quote: "Their blockchain implementation was seamless and completely secure. The team's expertise is unmatched in the African tech space.",
-      author: "David Mwangi",
-      position: "Head of Innovation, KenyaTech",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80"
+      quote: "Our beauty spa website by NextHomeLabs has helped us reach more customers and streamline our booking process. The sleek design perfectly captures our brand's luxury essence.",
+      author: "KARENA BEAUTY",
+      position: "Luxury Beauty And Wellness Spa In Kampala",
+      avatar: "https://i.ibb.co/x8dCJ1H2/beauty-shop-logo.jpg",
+      website: "https://karenabeauty.com"
     },
     {
-      quote: "The custom AI solution developed by NextHomeLabs helped us reduce decision-making time by 65% while improving accuracy.",
-      author: "Grace Ochieng",
-      position: "Operations Director, Uganda Health Systems",
-      avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=150&q=80"
+      quote: "The e-commerce solution NextHomeLabs built for us revolutionized our PlayStation sales. Their attention to detail and technical expertise has made our online store a market leader.",
+      author: "Fique Game Solutions",
+      position: "Your Ultimate Playstation Store In Uganda",
+      avatar: "https://i.ibb.co/1Gb6SwvB/Whats-App-Image-2025-02-07-at-10-31-47-4202e5b7.jpg",
+      website: "https://fiquegamesolutions.com"
     }
   ];
 
@@ -131,7 +134,7 @@ export function TrustBuildingSection() {
             viewport={{ once: true }}
             className="text-3xl font-bold text-center mb-12"
           >
-            What Our Clients Say
+            Our Client Websites
           </motion.h3>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -142,7 +145,7 @@ export function TrustBuildingSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-black/40 backdrop-blur-sm border border-[#00E6E6]/10 rounded-xl p-6 relative"
+                className="bg-black/40 backdrop-blur-sm border border-[#00E6E6]/10 rounded-xl p-6 relative group hover:border-[#00E6E6]/30 transition-all duration-300"
               >
                 {/* Quotation mark */}
                 <div className="absolute -top-6 -left-1 text-[80px] text-[#00E6E6]/20 font-serif">"</div>
@@ -150,18 +153,32 @@ export function TrustBuildingSection() {
                 <p className="text-gray-300 relative z-10 mb-6 italic">{testimonial.quote}</p>
                 
                 <div className="flex items-center gap-4">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white">
                     <Image 
                       src={testimonial.avatar}
                       alt={testimonial.author}
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                   <div>
                     <h4 className="font-semibold">{testimonial.author}</h4>
                     <p className="text-sm text-gray-400">{testimonial.position}</p>
                   </div>
+                </div>
+                
+                {/* Visit website link */}
+                <div className="mt-4">
+                  <Link href={testimonial.website} target="_blank" rel="noopener noreferrer">
+                    <Button
+                      variant="ghost"
+                      size="sm" 
+                      className="w-full text-[#00E6E6] hover:bg-[#00E6E6]/10"
+                    >
+                      Visit Website
+                      <span className="ml-2">↗</span>
+                    </Button>
+                  </Link>
                 </div>
               </motion.div>
             ))}

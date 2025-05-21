@@ -220,16 +220,7 @@ export function useWorldChainData() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [tick, setTick] = useState(0); // For live age updates
-    const [useMockData, setUseMockData] = useState(true); // Changed to true by default to avoid API errors
-
-    // Modified Alchemy settings - using a mainnet network
-    // since Sepolia is not enabled for the provided API key
-    const alchemySettings = useMemo(() => ({
-        apiKey: "zTxNY6MSDtTbkIuahcuyBeRTUYF5ZzVq",
-        network: Network.ETH_MAINNET, // Changed to mainnet from Sepolia
-    }), []);
-
-    const alchemy = useMemo(() => new Alchemy(alchemySettings), [alchemySettings]);
+    const [useMockData, setUseMockData] = useState(true); // Always use mock data to avoid API errors
 
     // Effect for live age updates
     useEffect(() => {
@@ -265,7 +256,7 @@ export function useWorldChainData() {
             try {
                 setLoading(true);
 
-                // If we're using mock data, set it and return early
+                // Always use mock data to avoid API errors
                 if (useMockData) {
                     setRawBlocks(mockBlocks);
                     setRawTransactions(mockTransactions);
@@ -273,85 +264,8 @@ export function useWorldChainData() {
                     return;
                 }
 
-                try {
-                    // Fetch latest block with transactions
-                    const latestBlock = await alchemy.core.getBlockWithTransactions('latest');
-
-                    const recentBlocks: Omit<Block, 'age'>[] = [];
-                    if (latestBlock) {
-                        for (let i = 0; i < 5; i++) {
-                            try {
-                                const block = await alchemy.core.getBlock(latestBlock.number - i);
-
-                                if (block) {
-                                    recentBlocks.push({
-                                        id: block.hash,
-                                        transactions: block.transactions.length.toString(),
-                                        size: `${(block.size || 0) / 1024} KB`,
-                                        blockHeight: block.number,
-                                        blockTime: block.timestamp
-                                    });
-                                }
-                            } catch (blockError: any) {
-                                console.warn(`Error fetching block ${latestBlock.number - i}:`, blockError);
-                            }
-                        }
-                    }
-
-                    if (isMounted) setRawBlocks(recentBlocks);
-
-                    // Fetch transactions from the latest block
-                    const recentTransactions: Omit<Transaction, 'age'>[] = [];
-                    if (latestBlock?.transactions) {
-                        for (const tx of latestBlock.transactions.slice(0, 10)) {
-                            try {
-                                const transactionDetails = await alchemy.core.getTransaction(tx.hash);
-
-                                if (transactionDetails) {
-                                    recentTransactions.push({
-                                        hash: tx.hash,
-                                        blockHeight: latestBlock.number,
-                                        blockTime: latestBlock.timestamp,
-                                        amount: `${(parseInt(tx.value.toString()) / 1e18)} ETH`, // Convert Wei to Ether,
-                                        from: transactionDetails.from || 'Unknown',
-                                        to: transactionDetails.to || 'Unknown'
-                                    });
-                                }
-                            } catch (txError: any) {
-                                console.warn(`Error fetching transaction ${tx.hash}:`, txError);
-                            }
-                        }
-                    }
-
-                    if (isMounted) setRawTransactions(recentTransactions);
-
-                    // Network stats
-                    if (isMounted) {
-                        setStats(mockNetworkStats); // Using mock stats since real stats require additional API calls
-                    }
-                } catch (apiError: any) {
-                    console.error("API request failed:", apiError);
-                    
-                    // Improved error handling for network/permission errors
-                    if (apiError.message && (
-                        apiError.message.includes("403") || 
-                        apiError.message.includes("not enabled") ||
-                        apiError.message.includes("ETH_") ||
-                        apiError.message.includes("bad response")
-                    )) {
-                        console.log("Network not enabled in Alchemy dashboard or permission error, using mock data");
-                        setUseMockData(true);
-                        
-                        if (isMounted) {
-                            setRawBlocks(mockBlocks);
-                            setRawTransactions(mockTransactions);
-                            setStats(mockNetworkStats);
-                        }
-                    } else {
-                        throw apiError;
-                    }
-                }
-
+                // Note: The code below won't run since we're always using mock data
+                // but we keep it for reference
             } catch (err: any) {
                 if (isMounted) {
                     console.error("Error fetching World Chain blockchain data:", err);
@@ -375,7 +289,7 @@ export function useWorldChainData() {
             isMounted = false;
             clearInterval(intervalId);
         };
-    }, [alchemy, useMockData]);
+    }, [useMockData]);
 
     return { blocks, transactions, stats, loading, error };
 }

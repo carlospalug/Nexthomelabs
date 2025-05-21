@@ -12,21 +12,33 @@ const clients = [
     logo: "https://i.ibb.co/b5q3k8r/logo.jpg",
     description: "Investment and financial services platform",
     link: "https://axorinvestments.com",
-    achievements: ["Automated investment tracking", "Real-time portfolio analytics"]
+    achievements: [
+      "Automated investment tracking",
+      "Secure financial data management",
+      "Interactive portfolio analytics"
+    ]
   },
   {
     name: "KARENA BEAUTY",
     logo: "https://i.ibb.co/x8dCJ1H2/beauty-shop-logo.jpg",
     description: "Luxury Beauty And Wellness Spa In Kampala",
     link: "https://karenabeauty.com",
-    achievements: ["Beauty reached to Masses", "Real-time portfolio analytics"]
+    achievements: [
+      "Online booking system",
+      "Digital product catalog",
+      "Customer relationship management"
+    ]
   },
   {
     name: "Fique Game Solutions",
     logo: "https://i.ibb.co/1Gb6SwvB/Whats-App-Image-2025-02-07-at-10-31-47-4202e5b7.jpg",
     description: "Your Ultimate Playstation Store In Uganda",
     link: "https://fiquegamesolutions.com",
-    achievements: ["Sold A Playstation To Almost Every Ugandan", "Real-time portfolio analytics"]
+    achievements: [
+      "E-commerce functionality",
+      "Inventory management system",
+      "Customer loyalty program"
+    ]
   },
 ];
 
@@ -240,7 +252,7 @@ export function WebDevSection() {
               className="relative group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-[#00E6E6]/10 to-blue-500/10 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-300" />
-              <div className="relative p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm h-full">
+              <div className="relative p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm h-full hover:border-[#00E6E6]/40 transition-all duration-300">
                 <div className="flex items-center gap-2 mb-3">
                   <service.icon className="w-5 h-5 text-[#00E6E6]" />
                   <h3 className="text-lg font-bold">{service.title}</h3>
@@ -288,7 +300,7 @@ export function WebDevSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm"
+                className="p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm hover:border-[#00E6E6]/40 transition-all duration-300"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <service.icon className="w-5 h-5 text-[#00E6E6]" />
@@ -319,7 +331,7 @@ export function WebDevSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm"
+                className="p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm hover:border-[#00E6E6]/40 transition-all duration-300"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 rounded-full bg-[#00E6E6]/10 flex items-center justify-center text-[#00E6E6] font-bold">
@@ -348,7 +360,7 @@ export function WebDevSection() {
           <p className="text-sm text-gray-400 mb-6 max-w-2xl mx-auto">
             A selection of our public portfolio. Many of our enterprise clients and projects remain confidential under strict NDAs, reflecting our commitment to client privacy and trust.
           </p>
-          <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {clients.map((client, index) => (
               <motion.div
                 key={client.name}
@@ -359,8 +371,8 @@ export function WebDevSection() {
                 className="relative group"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-[#00E6E6]/10 to-blue-500/10 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-300" />
-                <div className="relative p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm">
-                  <div className="h-20 relative mb-3">
+                <div className="relative p-4 rounded-lg border border-[#00E6E6]/20 bg-black/40 backdrop-blur-sm hover:border-[#00E6E6]/40 transition-all duration-300">
+                  <div className="h-20 relative mb-3 bg-white rounded-md p-2">
                     <Image
                       src={client.logo}
                       alt={`${client.name} logo`}
@@ -381,7 +393,6 @@ export function WebDevSection() {
                   <Link href={client.link} target="_blank">
                     <Button 
                       variant="outline"
-                      size="sm"
                       className="w-full border-[#00E6E6] text-[#00E6E6] hover:bg-[#00E6E6]/10 group"
                     >
                       Visit Website
@@ -401,12 +412,15 @@ export function WebDevSection() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <a href="mailto:usf@nexthomelabs.com?subject=Project%20Inquiry%20-%20NextHomeLabs&body=Hello%20NextHomeLabs%20Team%2C%0A%0AI'm%20interested%20in%20starting%20a%20project%20with%20your%20team.%0A%0AProject%20Details%3A%0A-%20Project%20Type%3A%0A-%20Timeline%3A%0A-%20Key%20Requirements%3A%0A%0ABusiness%20Information%3A%0A-%20Company%20Name%3A%0A-%20Industry%3A%0A-%20Contact%20Person%3A%0A%0AAdditional%20Notes%3A%0A%0A%0ABest%20regards">
+          <a href="mailto:info@nexthomelabs.com?subject=Project%20Inquiry%20-%20NextHomeLabs&body=Hello%20NextHomeLabs%20Team%2C%0A%0AI'm%20interested%20in%20starting%20a%20project%20with%20your%20team.%0A%0AProject%20Details%3A%0A-%20Project%20Type%3A%0A-%20Timeline%3A%0A-%20Key%20Requirements%3A%0A%0ABusiness%20Information%3A%0A-%20Company%20Name%3A%0A-%20Industry%3A%0A-%20Contact%20Person%3A%0A%0AAdditional%20Notes%3A%0A%0A%0ABest%20regards">
             <Button 
-              className="bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black group"
+              className="bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black group relative overflow-hidden"
             >
-              Start Your Project
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              <span className="relative z-10 flex items-center">
+                Start Your Project
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              </span>
+              <span className="absolute inset-0 w-0 bg-black/10 group-hover:w-full transition-all duration-300"></span>
             </Button>
           </a>
         </motion.div>
