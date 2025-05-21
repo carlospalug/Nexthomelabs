@@ -6,7 +6,6 @@ import { ClientLayout } from "@/components/client-layout";
 import Script from 'next/script';
 import { NextIntlClientProvider } from 'next-intl';
 import { createTranslator } from 'next-intl';
-import { headers } from 'next/headers';
 
 import '../lib/i18n';
 
@@ -41,14 +40,13 @@ const organizationSchema = {
   ]
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const headersList = headers();
-  // Get region and location from headers (set by middleware)
-  const region = headersList.get('x-site-region') || 'Africa';
-  const location = headersList.get('x-site-location') || 'Made in Africa';
-  const title = headersList.get('x-site-title') || 'NextHomeLabs | Leading African AI & Blockchain Innovation Hub';
-  const description = headersList.get('x-site-description') || 'Africa\'s premier AI and blockchain innovation hub, transforming industries with cutting-edge technology solutions.';
-  const detectedLanguage = headersList.get('x-detected-language') || 'en';
+export function generateMetadata(): Metadata {
+  // Use static default values instead of headers()
+  const region = 'Africa';
+  const location = 'Made in Africa';
+  const title = 'NextHomeLabs | Leading African AI & Blockchain Innovation Hub';
+  const description = 'Africa\'s premier AI and blockchain innovation hub, transforming industries with cutting-edge technology solutions.';
+  const detectedLanguage = 'en';
   
   const metadataBase = new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nexthomelabs.com');
   
@@ -159,12 +157,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Get headers data in the server component
-  const headersList = headers();
-  const detectedLanguage = headersList.get('x-detected-language') || 'en';
+  // Use a static default language instead of headers()
+  const defaultLanguage = 'en';
   
   return (
-    <html lang={detectedLanguage} suppressHydrationWarning className="scroll-smooth">
+    <html lang={defaultLanguage} suppressHydrationWarning className="scroll-smooth">
       <head>
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="canonical" href="https://nexthomelabs.com" />
@@ -224,7 +221,7 @@ export default function RootLayout({
             `,
           }}
         />
-        <ClientLayout detectedLanguage={detectedLanguage}>
+        <ClientLayout defaultLanguage={defaultLanguage}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

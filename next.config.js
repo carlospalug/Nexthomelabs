@@ -58,7 +58,7 @@ const nextConfig = {
   },
   
   // Webpack configuration with simplified cache control
-  webpack: (config, {  dir, isServer, dev }) => {
+  webpack: (config, { dir, isServer, dev }) => {
     // Add cache busting to output filenames in development
     if (dev) {
       config.output.filename = `static/chunks/[name].[contenthash].js`;
@@ -71,15 +71,16 @@ const nextConfig = {
       sideEffects: false
     });
 
-    // Configure cache - simplified to avoid issues
+    // Improved cache configuration to avoid corruption
     config.cache = {
       type: 'filesystem',
+      version: `${Date.now().toString()}`, // Add version to avoid cache conflicts
       buildDependencies: {
         config: [__filename],
       },
       cacheDirectory: path.resolve(dir || __dirname, '.next/cache/webpack'),
-      // Use stable cache keys
-      name: 'next-webpack-cache',
+      name: 'stable-webpack-cache', // Use a stable cache name
+      profile: true,
     };
 
     // Add aliases
