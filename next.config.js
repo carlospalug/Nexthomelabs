@@ -81,6 +81,7 @@ const nextConfig = {
             { from: 'public/images', to: 'images' },
             { from: 'public/sitemap.xml', to: 'sitemap.xml' },
             { from: 'public/robots.txt', to: 'robots.txt' },
+            { from: 'public/locales', to: 'locales' },
             { 
               from: 'public', 
               to: '', 
@@ -92,7 +93,11 @@ const nextConfig = {
                   '**/ohood.html',
                   '**/yusuf.html',
                   '**/farooq.html',
-                  '**/nicholas.html'
+                  '**/nicholas.html',
+                  '**/images/**',
+                  '**/locales/**',
+                  '**/sitemap.xml',
+                  '**/robots.txt'
                 ] 
               } 
             },
