@@ -157,11 +157,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Use a static default language instead of headers()
+  // Use a static default language
   const defaultLanguage = 'en';
   
   return (
-    <html lang={defaultLanguage} suppressHydrationWarning className="scroll-smooth">
+    <html lang={defaultLanguage} suppressHydrationWarning>
       <head>
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="canonical" href="https://nexthomelabs.com" />

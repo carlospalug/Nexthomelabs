@@ -1,37 +1,9 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const dotenv = require('dotenv');
-const fs = require('fs');
 
-// Load environment variables from .env.local
+// Load environment variables from .env
 dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-// Function to clear specific cache directories
-function clearCache() {
-  try {
-    const cacheDirs = [
-      path.join(__dirname, '.next/cache'),
-      path.join(__dirname, '.next/build-manifest.json'),
-    ];
-
-    cacheDirs.forEach(dir => {
-      if (fs.existsSync(dir)) {
-        if (fs.lstatSync(dir).isDirectory()) {
-          fs.rmSync(dir, { recursive: true, force: true });
-          console.log(`Cleared cache directory: ${dir}`);
-        } else {
-          fs.unlinkSync(dir);
-          console.log(`Removed cache file: ${dir}`);
-        }
-      }
-    });
-  } catch (error) {
-    console.error('Error clearing cache:', error);
-  }
-}
-
-// Clear cache before building
-clearCache();
 
 const nextConfig = {
   eslint: {
@@ -57,30 +29,22 @@ const nextConfig = {
     BING_VERIFICATION_CODE: process.env.META_B39,
   },
   
-  // Webpack configuration with simplified cache control
-  webpack: (config, { dir, isServer, dev }) => {
-    // Add cache busting to output filenames in development
-    if (dev) {
-      config.output.filename = `static/chunks/[name].[contenthash].js`;
-      config.output.chunkFilename = `static/chunks/[name].[contenthash].js`;
-    }
-
+  // Simplified webpack configuration
+  webpack: (config, { isServer, dev }) => {
     // Add Recharts configuration
     config.module.rules.push({
       test: /recharts/,
       sideEffects: false
     });
 
-    // Improved cache configuration to avoid corruption
+    // Simplified cache configuration
     config.cache = {
       type: 'filesystem',
-      version: `${Date.now().toString()}`, // Add version to avoid cache conflicts
       buildDependencies: {
         config: [__filename],
       },
-      cacheDirectory: path.resolve(dir || __dirname, '.next/cache/webpack'),
-      name: 'stable-webpack-cache', // Use a stable cache name
-      profile: true,
+      cacheDirectory: path.resolve(__dirname, '.next/cache/webpack'),
+      name: isServer ? 'server-webpack-cache' : 'client-webpack-cache',
     };
 
     // Add aliases
@@ -88,7 +52,8 @@ const nextConfig = {
       ...config.resolve,
       alias: {
         ...config.resolve.alias,
-        'has-symbols': path.resolve(__dirname, 'node_modules/has-symbols')
+        'has-symbols': path.resolve(__dirname, 'node_modules/has-symbols'),
+        'iconv-lite': path.join(__dirname, 'node_modules/iconv-lite'),
       }
     };
 
@@ -122,7 +87,12 @@ const nextConfig = {
               globOptions: { 
                 ignore: [
                   '**/index.html',
-                  '**/team/*'
+                  '**/team/*',
+                  '**/antoniy.html',
+                  '**/ohood.html',
+                  '**/yusuf.html',
+                  '**/farooq.html',
+                  '**/nicholas.html'
                 ] 
               } 
             },
@@ -131,10 +101,6 @@ const nextConfig = {
       );
     }
 
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'iconv-lite': path.join(__dirname, 'node_modules/iconv-lite'),
-    };
     return config;
   },
 };
