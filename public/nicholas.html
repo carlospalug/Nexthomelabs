@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://www.nexthomelabs.com/images/team/nicholas.jpg">
+    <title>Tumwesigye Nicholas | NextHomeLabs</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #010101;
+            flex-direction: column;
+        }
+        
+        .loader-container {
+            text-align: center;
+        }
+        
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #00ddff;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.5s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .progress-bar {
+            width: 300px;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 0%;
+            background-color: #00eaff;
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+        
+        .logo {
+            max-width: 200px;
+            margin-bottom: 30px;
+        }
+        
+        .message {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .destination {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .profile-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader-container">
+        <img src="/images/team/nicholas.jpg" alt="Tumwesigye Nicholas" class="logo">
+
+        <div class="progress-bar">
+            <div class="progress" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <img src="/images/team/nicholas.jpg" alt="Tumwesigye Nicholas" class="profile-image">
+        <div class="profile-details">
+            <h2>Tumwesigye Nicholas</h2>
+            <h3>AI & Blockchain Advocate</h3>
+            <p>Nicholas champions the widespread adoption of AI and blockchain technologies through strategic advocacy and outreach. His efforts focus on educating diverse audiences and fostering collaborations that highlight the transformative potential of these technologies.</p>
+            <h3>Expertise</h3>
+            <ul>
+                <li>Technology Advocacy</li>
+                <li>Strategic Communications</li>
+                <li>Partnership Development</li>
+                <li>Community Engagement</li>
+                <li>Public Speaking</li>
+                <li>Technology Education</li>
+            </ul>
+            <div class="social-links">
+               <a href="https://x.com/TumwesigyeNicholas" target="_blank">Twitter</a>
+               <a href="mailto:tumwesigye.nicholas@nexthomelabs.com">Email</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const progressBar = document.getElementById('progress-bar');
+        const redirectTime = 2500; 
+        const updateInterval = 50; 
+        let elapsed = 0;
+        
+        const updateProgress = () => {
+            elapsed += updateInterval;
+            const progress = (elapsed / redirectTime) * 100;
+            progressBar.style.width = `${Math.min(progress, 100)}%`;
+            
+            if (elapsed >= redirectTime) {
+                window.location.href = "https://www.nexthomelabs.com/team/tumwesigyenicholas/";
+            } else {
+                setTimeout(updateProgress, updateInterval);
+            }
+        };
+        
+        setTimeout(updateProgress, updateInterval);
+    </script>
+</body>
+</html>

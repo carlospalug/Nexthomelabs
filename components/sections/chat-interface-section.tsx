@@ -234,11 +234,13 @@ export function ChatInterfaceSection() {
                 focus:ring-[#00E6E6]/50 transition-all duration-500
                 ${fadeOut ? 'opacity-30' : 'opacity-100'}
               `}
+              aria-label="Ask CentGPT a question"
             />
             <Button
               type="submit"
               size="icon"
               className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#374151] hover:bg-[#4B5563] text-white rounded-lg"
+              aria-label="Submit question"
             >
               <Send className="w-4 h-4" />
             </Button>
