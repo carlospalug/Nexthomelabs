@@ -140,10 +140,12 @@ export function ChatInterfaceSection() {
   const [currentPlaceholder, setCurrentPlaceholder] = useState<string>("");
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const [isInputActive, setIsInputActive] = useState<boolean>(false);
   const questionsRef = useRef<string[]>([]);
   const currentIndexRef = useRef<number>(0);
   const timeoutRef = useRef<NodeJS.Timeout>();
   const fadeTimeoutRef = useRef<NodeJS.Timeout>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Initialize questions only once
   useEffect(() => {
@@ -167,6 +169,9 @@ export function ChatInterfaceSection() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
 
+    // Don't cycle if the input is active or has a value
+    if (isInputActive || inputValue.trim()) return;
+
     // Set up the interval to change the placeholder
     const cycleQuestion = () => {
       setFadeOut(true);
@@ -188,11 +193,38 @@ export function ChatInterfaceSection() {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
     };
-  }, [getNextQuestion]);
+  }, [getNextQuestion, isInputActive, inputValue]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim()) {
+      // Create ripple effect on button
+      const button = document.querySelector('.submit-button') as HTMLButtonElement;
+      if (button) {
+        const circle = document.createElement('span');
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = '0px';
+        circle.style.top = '0px';
+        circle.classList.add('ripple');
+        
+        // Remove existing ripple
+        const existingRipple = button.querySelector('.ripple');
+        if (existingRipple) {
+          existingRipple.remove();
+        }
+
+        button.appendChild(circle);
+        
+        // Remove ripple after animation
+        setTimeout(() => {
+          circle.remove();
+        }, 600);
+      }
+
+      // Encode and redirect
       const encodedQuery = encodeURIComponent(inputValue.trim());
       window.open(`https://centgpt.com/?q=${encodedQuery}`, '_blank');
       setInputValue("");
@@ -200,8 +232,18 @@ export function ChatInterfaceSection() {
   };
 
   return (
-    <section className="min-h-screen bg-[#0D1117] flex flex-col items-center justify-center pt-20 pb-10">
-      <div className="w-full max-w-3xl mx-auto px-4">
+    <section className="min-h-screen bg-[#0D1117] flex flex-col items-center justify-center pt-20 pb-10 relative">
+      {/* Add ambient background animation */}
+      <div 
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `radial-gradient(circle at 50% 50%, rgba(0,230,230,0.4) 0%, transparent 70%)`,
+          backgroundSize: '150% 150%',
+          animation: 'pulse 8s ease-in-out infinite'
+        }}
+      />
+
+      <div className="w-full max-w-3xl mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -223,28 +265,71 @@ export function ChatInterfaceSection() {
         >
           <form onSubmit={handleSubmit} className="relative">
             <input
+              ref={inputRef}
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
+              onFocus={() => setIsInputActive(true)}
+              onBlur={() => setIsInputActive(false)}
               placeholder={currentPlaceholder}
               className={`
                 w-full p-4 pr-12 bg-[#1F2937] border border-[#374151] rounded-xl 
                 text-white placeholder-gray-400 focus:outline-none focus:ring-2 
-                focus:ring-[#00E6E6]/50 transition-all duration-500
+                focus:ring-[#00E6E6]/50 transition-all duration-300
                 ${fadeOut ? 'opacity-30' : 'opacity-100'}
+                hover:border-[#00E6E6]/30
               `}
               aria-label="Ask CentGPT a question"
             />
             <Button
               type="submit"
               size="icon"
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#374151] hover:bg-[#4B5563] text-white rounded-lg"
+              className="submit-button absolute right-3 top-1/2 -translate-y-1/2 bg-[#374151] hover:bg-[#4B5563] text-white rounded-lg overflow-hidden"
               aria-label="Submit question"
             >
               <Send className="w-4 h-4" />
             </Button>
           </form>
+
+          <style jsx global>{`
+            .ripple {
+              position: absolute;
+              background-color: rgba(255, 255, 255, 0.3);
+              border-radius: 50%;
+              transform: scale(0);
+              animation: ripple 0.6s linear;
+              pointer-events: none;
+            }
+
+            @keyframes ripple {
+              to {
+                transform: scale(2);
+                opacity: 0;
+              }
+            }
+
+            @keyframes pulse {
+              0% {
+                background-position: 0% 0%;
+              }
+              50% {
+                background-position: 100% 100%;
+              }
+              100% {
+                background-position: 0% 0%;
+              }
+            }
+
+            @keyframes float {
+              0%, 100% {
+                transform: translateY(0);
+              }
+              50% {
+                transform: translateY(-10px);
+              }
+            }
+          `}</style>
         </motion.div>
 
         <motion.p
@@ -255,6 +340,10 @@ export function ChatInterfaceSection() {
         >
           -CentGPT Can Make Mistakes, Always DoubleCheck-
         </motion.p>
+
+        {/* Floating assistance elements */}
+        <div className="absolute -bottom-20 -left-20 w-16 h-16 rounded-full bg-[#00E6E6]/5" style={{animation: 'float 6s ease-in-out infinite'}}></div>
+        <div className="absolute -top-10 -right-10 w-20 h-20 rounded-full bg-[#00E6E6]/10" style={{animation: 'float 7s ease-in-out infinite 1s'}}></div>
       </div>
     </section>
   );

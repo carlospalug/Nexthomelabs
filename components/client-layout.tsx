@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { initScrollAnimations } from '@/lib/utils';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const animationsInitialized = useRef(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    // Initialize scroll animations
+    if (!animationsInitialized.current) {
+      initScrollAnimations();
+      animationsInitialized.current = true;
+    }
 
     // Function to restore scroll position
     const restoreScrollPosition = () => {
@@ -55,12 +63,29 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     // Add event listeners
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     
+    // Add smooth navigation transitions
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a');
+      
+      if (anchor && anchor.href && anchor.href.startsWith(window.location.origin) && !anchor.hasAttribute('target')) {
+        // Store current scroll position
+        sessionStorage.setItem(
+          `scrollPosition-${pathname}${searchParams}`,
+          window.scrollY.toString()
+        );
+      }
+    };
+
+    document.addEventListener('click', handleLinkClick);
+    
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
       window.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('click', handleLinkClick);
       document.body.style.overscrollBehavior = '';
     };
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   return <>{children}</>;
 }
