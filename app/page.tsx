@@ -31,6 +31,7 @@ import { RegionalFocusSection } from "@/components/sections/regional-focus-secti
 import { SustainabilitySection } from "@/components/sections/sustainability-section";
 import { EmpoweringSection } from "@/components/sections/empowering-section";
 import { PartnersSection } from "@/components/sections/partners-section";
+import { TrustBuildingSection } from "@/components/sections/trust-building-section";
 
 export default function Home() {
   const ohood = team.find(member => member.slug === "ohoodrichard");
@@ -53,6 +54,9 @@ export default function Home() {
         <OffersSection />
         <FeaturesSection />
         <WhyAISection />
+        
+        {/* Trust building and value proposition section */}
+        <TrustBuildingSection />
         
         {/* Market and services sections */}
         <MarketGraphSection />
@@ -95,7 +99,7 @@ export default function Home() {
                         src={member.image}
                         alt={member.name}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                     </div>
                     <div className="px-4 py-3 rounded-lg bg-[#1F2937]/80 backdrop-blur-sm w-full">
