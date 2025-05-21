@@ -159,7 +159,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Detect language from headers or default to 'en'
+  // Get headers data in the server component
   const headersList = headers();
   const detectedLanguage = headersList.get('x-detected-language') || 'en';
   
@@ -224,7 +224,7 @@ export default function RootLayout({
             `,
           }}
         />
-        <ClientLayout>
+        <ClientLayout detectedLanguage={detectedLanguage}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

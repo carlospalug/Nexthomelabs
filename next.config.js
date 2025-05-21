@@ -30,10 +30,8 @@ function clearCache() {
   }
 }
 
-// Clear cache before building in development
-if (process.env.NODE_ENV === 'development') {
-  clearCache();
-}
+// Clear cache before building
+clearCache();
 
 const nextConfig = {
   eslint: {
@@ -59,7 +57,7 @@ const nextConfig = {
     BING_VERIFICATION_CODE: process.env.META_B39,
   },
   
-  // Webpack configuration with cache control
+  // Webpack configuration with simplified cache control
   webpack: (config, {  dir, isServer, dev }) => {
     // Add cache busting to output filenames in development
     if (dev) {
@@ -73,15 +71,15 @@ const nextConfig = {
       sideEffects: false
     });
 
-    // Configure cache with timestamp-based invalidation
+    // Configure cache - simplified to avoid issues
     config.cache = {
       type: 'filesystem',
       buildDependencies: {
         config: [__filename],
       },
       cacheDirectory: path.resolve(dir || __dirname, '.next/cache/webpack'),
-      name: `next-webpack-cache-${Date.now()}`,
-      version: `${Date.now()}`,
+      // Use stable cache keys
+      name: 'next-webpack-cache',
     };
 
     // Add aliases
@@ -131,9 +129,8 @@ const nextConfig = {
         })
       );
     }
-    
 
-     config.resolve.alias = {
+    config.resolve.alias = {
       ...config.resolve.alias,
       'iconv-lite': path.join(__dirname, 'node_modules/iconv-lite'),
     };
