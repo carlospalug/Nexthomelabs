@@ -59,13 +59,6 @@ const nextConfig = {
     BING_VERIFICATION_CODE: process.env.META_B39,
   },
   
-  // Internationalization
-  i18n: {
-    locales: ['en', 'fr', 'sw', 'lg'],
-    defaultLocale: 'en',
-    localeDetection: true,
-  },
-
   // Webpack configuration with cache control
   webpack: (config, {  dir, isServer, dev }) => {
     // Add cache busting to output filenames in development
