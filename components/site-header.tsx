@@ -288,11 +288,12 @@ export function SiteHeader() {
             <button
               onClick={() => setShowContactInfo(false)}
               className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
+              aria-label="Close contact information"
             >
               <X className="w-6 h-6" />
             </button>
 
-            <h2 className="text-2xl font-bold mb-6">{t('footer.contact')}</h2>
+            <h2 className="text-2xl font-bold mb-6">Contact Us</h2>
             
             <div className="space-y-6">
               {/* Email Contacts */}
@@ -432,8 +433,9 @@ export function SiteHeader() {
                 } hover:scale-105 transition-transform duration-200`}
                 onMouseEnter={() => handleMenuHover('research')}
                 onMouseLeave={handleMenuLeave}
+                aria-label="Research menu"
               >
-                {t('navigation.research')}
+                Research
               </button>
               <button
                 ref={(el) => buttonRefs.current['products'] = el}
@@ -442,8 +444,9 @@ export function SiteHeader() {
                 } hover:scale-105 transition-transform duration-200`}
                 onMouseEnter={() => handleMenuHover('products')}
                 onMouseLeave={handleMenuLeave}
+                aria-label="Products menu"
               >
-                {t('navigation.products')}
+                Products
               </button>
               <button
                 ref={(el) => buttonRefs.current['company'] = el}
@@ -452,8 +455,9 @@ export function SiteHeader() {
                 } hover:scale-105 transition-transform duration-200`}
                 onMouseEnter={() => handleMenuHover('company')}
                 onMouseLeave={handleMenuLeave}
+                aria-label="Company menu"
               >
-                {t('navigation.company')}
+                Company
               </button>
             </div>
           </div>
@@ -464,15 +468,17 @@ export function SiteHeader() {
               variant="ghost" 
               className="text-gray-300 hover:text-white relative overflow-hidden"
               onClick={() => setShowContactInfo(true)}
+              aria-label="Contact information"
             >
-              <span className="relative z-10">{t('navigation.contact')}</span>
+              <span className="relative z-10">Contact</span>
               <span className="absolute inset-0 w-0 bg-[#00E6E6]/10 group-hover:w-full transition-all duration-300"></span>
             </Button>
             <Link href="https://centgpt.com" target="_blank">
               <Button 
                 className="bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black relative overflow-hidden group"
+                aria-label="Try CentGPT"
               >
-                <span className="relative z-10">{t('navigation.tryCentGPT')}</span>
+                <span className="relative z-10">Try CentGPT</span>
                 <span className="absolute inset-0 w-0 bg-black/10 group-hover:w-full transition-all duration-300"></span>
               </Button>
             </Link>
@@ -502,7 +508,7 @@ export function SiteHeader() {
               <div className="px-6 py-20 space-y-4 max-h-screen overflow-y-auto">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">{t('navigation.research')}</p>
+                    <p className="text-sm font-medium text-gray-400">Research</p>
                     {researchTopics.map((topic, i) => (
                       <motion.button
                         key={topic.title}
@@ -518,7 +524,7 @@ export function SiteHeader() {
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">{t('navigation.products')}</p>
+                    <p className="text-sm font-medium text-gray-400">Products</p>
                     {productsMenu.map((item, i) => (
                       <motion.button
                         key={item.title}
@@ -534,7 +540,7 @@ export function SiteHeader() {
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">{t('navigation.company')}</p>
+                    <p className="text-sm font-medium text-gray-400">Company</p>
                     {companyMenu.map((item, i) => (
                       <motion.button
                         key={item.title}
@@ -561,13 +567,13 @@ export function SiteHeader() {
                     className="w-full text-gray-300 hover:text-white"
                     onClick={() => setShowContactInfo(true)}
                   >
-                    {t('navigation.contact')}
+                    Contact
                   </Button>
                   <Link href="https://centgpt.com" target="_blank">
                     <Button 
                       className="w-full bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black"
                     >
-                      {t('navigation.tryCentGPT')}
+                      Try CentGPT
                     </Button>
                   </Link>
                 </motion.div>
