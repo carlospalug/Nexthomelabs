@@ -11,7 +11,11 @@ export function BackToTopButton() {
       setShowButton(window.scrollY > 300);
     };
 
+    // Add scroll event listener
     window.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
     
     return () => {
       window.removeEventListener('scroll', handleScroll);

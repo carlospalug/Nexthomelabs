@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Brain, Shield, Bot, Link, Circle as CircleHalf, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 const researchTopics = [
   {
@@ -75,13 +76,33 @@ const researchTopics = [
 
 export function ResearchSection() {
   const router = useRouter();
+  const sectionRef = useRef<HTMLElement>(null);
 
   const handleLearnMore = (href: string) => {
+    // Save current scroll position before navigation
+    if (typeof window !== 'undefined') {
+      const scrollPosition = window.scrollY;
+      sessionStorage.setItem(
+        `scrollPosition-${window.location.pathname}${window.location.search}`,
+        scrollPosition.toString()
+      );
+      
+      // Also save which research topic was clicked
+      sessionStorage.setItem('lastResearchTopic', href);
+    }
+    
     router.push(href);
   };
 
+  // Mark this section for scroll restoration
+  useEffect(() => {
+    if (sectionRef.current) {
+      sectionRef.current.setAttribute('data-section', 'research');
+    }
+  }, []);
+
   return (
-    <section className="py-24 bg-black relative">
+    <section ref={sectionRef} className="py-24 bg-black relative research-section">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
       
@@ -107,6 +128,16 @@ export function ResearchSection() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               className="p-6 rounded-xl border border-[#00E6E6]/20 bg-black/50 hover:bg-black/70 transition-all duration-300 group"
+              aria-label={`Learn more about ${topic.title}`}
+              tabIndex={0}
+              role="button"
+              onClick={() => handleLearnMore(topic.href)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleLearnMore(topic.href);
+                }
+              }}
             >
               <div className="flex flex-col h-full">
                 <div className="mb-4">
@@ -119,8 +150,12 @@ export function ResearchSection() {
                   {topic.description}
                 </p>
                 <button 
-                  onClick={() => handleLearnMore(topic.href)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLearnMore(topic.href);
+                  }}
                   className="mt-4 text-[#00E6E6] hover:text-white transition-colors text-sm font-medium"
+                  aria-label={`Learn more about ${topic.title}`}
                 >
                   Learn More
                 </button>
