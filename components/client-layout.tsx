@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useEffect } from 'react';
+import { useScrollRestoration } from '@/hooks/use-scroll-restoration';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -9,6 +10,9 @@ interface ClientLayoutProps {
 }
 
 export function ClientLayout({ children, defaultLanguage }: ClientLayoutProps) {
+  // Use our scroll restoration hook
+  useScrollRestoration();
+  
   // Add a useEffect hook to initialize client-side functionality
   useEffect(() => {
     // Fix for any hydration issues by ensuring state is consistent

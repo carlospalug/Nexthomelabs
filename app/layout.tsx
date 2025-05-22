@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClientLayout } from "@/components/client-layout";
 import { BackToTopButton } from '@/components/BackToTopButton';
+import { ScrollRestoration } from '@/components/scroll-restoration';
 import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -225,6 +226,7 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="nexthome-theme"
           >
+            <ScrollRestoration />
             {children}
             <BackToTopButton />
           </ThemeProvider>
