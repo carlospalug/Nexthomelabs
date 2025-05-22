@@ -34,6 +34,7 @@ import { EmpoweringSection } from "@/components/sections/empowering-section";
 import { PartnershipsEcosystemSection } from "@/components/sections/partnerships-ecosystem-section";
 import { PartnersSection } from "@/components/sections/partners-section";
 import { TrustBuildingSection } from "@/components/sections/trust-building-section";
+import { AISafetyEthicsSection } from "@/components/sections/ai-safety-ethics-section";
 
 export default function Home() {
   const ohood = team.find(member => member.slug === "ohoodrichard");
@@ -83,6 +84,7 @@ export default function Home() {
         
         {/* Additional value sections */}
         <SustainabilitySection />
+        <AISafetyEthicsSection />
         <EmpoweringSection />
         <PartnershipsEcosystemSection />
         <PartnersSection />
