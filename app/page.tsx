@@ -31,6 +31,7 @@ import { NewsSection } from "@/components/sections/news-section";
 import { RegionalFocusSection } from "@/components/sections/regional-focus-section";
 import { SustainabilitySection } from "@/components/sections/sustainability-section";
 import { EmpoweringSection } from "@/components/sections/empowering-section";
+import { PartnershipsEcosystemSection } from "@/components/sections/partnerships-ecosystem-section";
 import { PartnersSection } from "@/components/sections/partners-section";
 import { TrustBuildingSection } from "@/components/sections/trust-building-section";
 
@@ -83,6 +84,7 @@ export default function Home() {
         {/* Additional value sections */}
         <SustainabilitySection />
         <EmpoweringSection />
+        <PartnershipsEcosystemSection />
         <PartnersSection />
         
         {/* Team Section */}
