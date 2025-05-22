@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { useEffect } from 'react';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -8,10 +9,48 @@ interface ClientLayoutProps {
 }
 
 export function ClientLayout({ children, defaultLanguage }: ClientLayoutProps) {
-  // Now we have the defaultLanguage as a prop, matching how it's passed in layout.tsx
+  // Add a useEffect hook to initialize client-side functionality
+  useEffect(() => {
+    // Fix for any hydration issues by ensuring state is consistent
+    // This runs only on the client-side after hydration
+    const root = document.documentElement;
+    
+    // Ensure lang attribute is set
+    if (!root.lang) {
+      root.lang = defaultLanguage;
+    }
+    
+    // Initialize focus for accessibility
+    const initA11y = () => {
+      // Add class to body when using keyboard navigation
+      const handleFirstTab = (e: KeyboardEvent) => {
+        if (e.key === 'Tab') {
+          document.body.classList.add('user-is-tabbing');
+          window.removeEventListener('keydown', handleFirstTab);
+        }
+      };
+      
+      window.addEventListener('keydown', handleFirstTab);
+    };
+    
+    initA11y();
+    
+    return () => {
+      // Cleanup
+      document.body.classList.remove('user-is-tabbing');
+    };
+  }, [defaultLanguage]);
+  
   return (
     <>
-      {children}
+      {/* Skip to content link for accessibility */}
+      <a href="#main-content" className="skip-to-content">
+        Skip to content
+      </a>
+      {/* Add id to main content for skip link */}
+      <main id="main-content">
+        {children}
+      </main>
     </>
   )
 }

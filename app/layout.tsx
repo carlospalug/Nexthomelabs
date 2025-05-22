@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClientLayout } from "@/components/client-layout";
+import { BackToTopButton } from '@/components/BackToTopButton';
 import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -225,6 +226,7 @@ export default function RootLayout({
             storageKey="nexthome-theme"
           >
             {children}
+            <BackToTopButton />
           </ThemeProvider>
         </ClientLayout>
       </body>

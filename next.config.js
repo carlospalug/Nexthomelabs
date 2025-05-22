@@ -20,8 +20,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: 'export',
-  trailingSlash: true,
   
   // Environment variables configuration
   env: {
@@ -29,7 +27,7 @@ const nextConfig = {
     BING_VERIFICATION_CODE: process.env.META_B39,
   },
   
-  // Simplified webpack configuration
+  // Webpack configuration
   webpack: (config, { isServer, dev }) => {
     // Add Recharts configuration
     config.module.rules.push({
@@ -37,15 +35,20 @@ const nextConfig = {
       sideEffects: false
     });
 
-    // Simplified cache configuration
-    config.cache = {
-      type: 'filesystem',
-      buildDependencies: {
-        config: [__filename],
-      },
-      cacheDirectory: path.resolve(__dirname, '.next/cache/webpack'),
-      name: isServer ? 'server-webpack-cache' : 'client-webpack-cache',
-    };
+    // Disable cache in development to prevent webpack cache issues
+    if (dev) {
+      config.cache = false;
+    } else {
+      // Simplified cache configuration for production
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+        cacheDirectory: path.resolve(__dirname, '.next/cache/webpack'),
+        name: isServer ? 'server-webpack-cache' : 'client-webpack-cache',
+      };
+    }
 
     // Add aliases
     config.resolve = {
