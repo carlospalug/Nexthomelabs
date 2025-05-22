@@ -33,6 +33,16 @@ export function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || '';
   const domain = hostname.split(':')[0]; // Remove port if present
   
+  // Skip middleware for API routes and static files
+  if (
+    url.pathname.startsWith('/api') ||
+    url.pathname.startsWith('/_next') || 
+    url.pathname.startsWith('/static') ||
+    url.pathname.includes('.')
+  ) {
+    return NextResponse.next();
+  }
+  
   // Skip middleware for static export
   if (process.env.NEXT_EXPORT) {
     return NextResponse.next();
@@ -56,6 +66,15 @@ export function middleware(request: NextRequest) {
   
   // If it's not already in the path, determine the language to use
   if (!isLanguageInPath) {
+    // Check for language cookie first
+    const languageCookie = request.cookies.get('NEXT_LOCALE')?.value;
+    if (languageCookie && SUPPORTED_LANGUAGES.includes(languageCookie)) {
+      // Don't redirect, just pass the language in headers
+      const response = NextResponse.next();
+      response.headers.set('x-detected-language', languageCookie);
+      return response;
+    }
+    
     // Priority: 1. Country based mapping
     let detectedLanguage = country && COUNTRY_LANGUAGE_MAP[country] ? COUNTRY_LANGUAGE_MAP[country] : '';
     
@@ -72,11 +91,10 @@ export function middleware(request: NextRequest) {
       detectedLanguage = DEFAULT_LANGUAGE;
     }
     
-    // Only redirect if the detected language is not the default
-    if (detectedLanguage !== DEFAULT_LANGUAGE) {
-      url.pathname = `/${detectedLanguage}${pathname}`;
-      return NextResponse.redirect(url);
-    }
+    // Pass the detected language in headers instead of redirecting
+    const response = NextResponse.next();
+    response.headers.set('x-detected-language', detectedLanguage);
+    return response;
   }
   
   // Domain handling
@@ -100,10 +118,6 @@ export function middleware(request: NextRequest) {
   // Add detected language to headers
   if (isLanguageInPath) {
     response.headers.set('x-detected-language', currentLang);
-  } else {
-    const detectedLanguage = country && COUNTRY_LANGUAGE_MAP[country] ? 
-      COUNTRY_LANGUAGE_MAP[country] : DEFAULT_LANGUAGE;
-    response.headers.set('x-detected-language', detectedLanguage);
   }
   
   return response;

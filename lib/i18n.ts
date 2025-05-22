@@ -3,6 +3,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from './location';
+import Cookies from 'js-cookie';
 
 // Import translations
 import enTranslation from '../public/locales/en/common.json';
@@ -25,12 +26,28 @@ const resources = {
   },
 };
 
+// Get initial language from HTML or cookie
+let initialLanguage = DEFAULT_LANGUAGE;
+if (typeof document !== 'undefined') {
+  // First try to get from HTML lang attribute
+  if (document.documentElement.lang) {
+    initialLanguage = document.documentElement.lang;
+  } 
+  // Then try to get from cookie
+  else {
+    const cookieLang = Cookies.get('NEXT_LOCALE');
+    if (cookieLang && SUPPORTED_LANGUAGES.includes(cookieLang)) {
+      initialLanguage = cookieLang;
+    }
+  }
+}
+
 // Initialize i18next
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: DEFAULT_LANGUAGE, // Default language
+    lng: initialLanguage, // Use detected language
     fallbackLng: DEFAULT_LANGUAGE,
     ns: ['common'],
     defaultNS: 'common',
@@ -41,5 +58,21 @@ i18n
       useSuspense: false, // Required for server-side rendering
     },
   });
+
+// Listen for language changes
+if (typeof window !== 'undefined') {
+  const htmlObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+        const newLang = document.documentElement.lang;
+        if (newLang && newLang !== i18n.language && SUPPORTED_LANGUAGES.includes(newLang)) {
+          i18n.changeLanguage(newLang);
+        }
+      }
+    });
+  });
+  
+  htmlObserver.observe(document.documentElement, { attributes: true });
+}
 
 export default i18n;

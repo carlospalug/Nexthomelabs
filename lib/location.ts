@@ -113,63 +113,97 @@ export function getLanguageFromLocation(countryCode: string): string {
 
 // Function to save the user's language preference
 export function saveLanguagePreference(language: string): void {
-  Cookies.set(LANGUAGE_COOKIE_NAME, language, { expires: 365, path: '/' });
+  try {
+    if (SUPPORTED_LANGUAGES.includes(language)) {
+      Cookies.set(LANGUAGE_COOKIE_NAME, language, { expires: 365, path: '/' });
+      console.log(`Language preference saved: ${language}`);
+    }
+  } catch (error) {
+    console.error('Error saving language preference:', error);
+  }
 }
 
 // Function to save the user's detected location
 export function saveUserLocation(countryCode: string): void {
-  Cookies.set(LOCATION_COOKIE_NAME, countryCode, { expires: 7, path: '/' });
+  try {
+    Cookies.set(LOCATION_COOKIE_NAME, countryCode, { expires: 7, path: '/' });
+  } catch (error) {
+    console.error('Error saving user location:', error);
+  }
 }
 
 // Function to get the language preference from cookie
 export function getLanguagePreference(): string | undefined {
-  return Cookies.get(LANGUAGE_COOKIE_NAME);
+  try {
+    return Cookies.get(LANGUAGE_COOKIE_NAME);
+  } catch (error) {
+    console.error('Error getting language preference:', error);
+    return undefined;
+  }
 }
 
 // Function to get the stored user location from cookie
 export function getSavedUserLocation(): string | undefined {
-  return Cookies.get(LOCATION_COOKIE_NAME);
+  try {
+    return Cookies.get(LOCATION_COOKIE_NAME);
+  } catch (error) {
+    console.error('Error getting saved user location:', error);
+    return undefined;
+  }
 }
 
 // Main function to detect user language
 export async function detectUserLanguage(): Promise<string> {
-  // First check if the user has a saved preference
-  const savedLanguage = getLanguagePreference();
-  if (savedLanguage && SUPPORTED_LANGUAGES.includes(savedLanguage)) {
-    return savedLanguage;
-  }
-
-  // Try to get location from cookie
-  const savedLocation = getSavedUserLocation();
-  if (savedLocation) {
-    const language = getLanguageFromLocation(savedLocation);
-    if (language) return language;
-  }
-
-  // Try to get location from browser geolocation
   try {
-    const countryCode = await getUserLocationFromBrowser();
-    if (countryCode) {
-      saveUserLocation(countryCode);
-      const language = getLanguageFromLocation(countryCode);
+    // First check if the user has a saved preference
+    const savedLanguage = getLanguagePreference();
+    if (savedLanguage && SUPPORTED_LANGUAGES.includes(savedLanguage)) {
+      return savedLanguage;
+    }
+
+    // If the document is available, check the html lang attribute
+    if (typeof document !== 'undefined' && document.documentElement.lang) {
+      const htmlLang = document.documentElement.lang;
+      if (SUPPORTED_LANGUAGES.includes(htmlLang)) {
+        return htmlLang;
+      }
+    }
+
+    // Try to get location from cookie
+    const savedLocation = getSavedUserLocation();
+    if (savedLocation) {
+      const language = getLanguageFromLocation(savedLocation);
       if (language) return language;
     }
-  } catch (error) {
-    console.warn('Error getting browser geolocation:', error);
-  }
 
-  // Fallback to IP geolocation
-  try {
-    const countryCode = await getUserLocationFromIP();
-    if (countryCode) {
-      saveUserLocation(countryCode);
-      const language = getLanguageFromLocation(countryCode);
-      if (language) return language;
+    // Try to get location from browser geolocation
+    try {
+      const countryCode = await getUserLocationFromBrowser();
+      if (countryCode) {
+        saveUserLocation(countryCode);
+        const language = getLanguageFromLocation(countryCode);
+        if (language) return language;
+      }
+    } catch (error) {
+      console.warn('Error getting browser geolocation:', error);
     }
-  } catch (error) {
-    console.warn('Error getting IP geolocation:', error);
-  }
 
-  // Last resort: use browser language
-  return getBrowserLanguage();
+    // Fallback to IP geolocation
+    try {
+      const countryCode = await getUserLocationFromIP();
+      if (countryCode) {
+        saveUserLocation(countryCode);
+        const language = getLanguageFromLocation(countryCode);
+        if (language) return language;
+      }
+    } catch (error) {
+      console.warn('Error getting IP geolocation:', error);
+    }
+
+    // Last resort: use browser language
+    return getBrowserLanguage();
+  } catch (error) {
+    console.error('Error in detectUserLanguage:', error);
+    return DEFAULT_LANGUAGE;
+  }
 }

@@ -24,6 +24,23 @@ export function ClientLayout({ children, defaultLanguage }: ClientLayoutProps) {
       root.lang = defaultLanguage;
     }
     
+    // Handle language cookie changes
+    const checkLanguageCookie = () => {
+      const cookies = document.cookie.split(';');
+      for (const cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'NEXT_LOCALE' && value && value !== root.lang) {
+          // If cookie doesn't match current lang, reload the page
+          window.location.reload();
+          return;
+        }
+      }
+    };
+    
+    // Check initially and periodically
+    checkLanguageCookie();
+    const intervalId = setInterval(checkLanguageCookie, 5000);
+    
     // Initialize focus for accessibility
     const initA11y = () => {
       // Add class to body when using keyboard navigation
@@ -42,6 +59,7 @@ export function ClientLayout({ children, defaultLanguage }: ClientLayoutProps) {
     return () => {
       // Cleanup
       document.body.classList.remove('user-is-tabbing');
+      clearInterval(intervalId);
     };
   }, [defaultLanguage]);
   

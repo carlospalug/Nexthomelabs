@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Check, Globe } from 'lucide-react';
 import { saveLanguagePreference, SUPPORTED_LANGUAGES } from '@/lib/location';
@@ -9,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useTranslation } from 'react-i18next';
 
 const languageNames: Record<string, string> = {
   en: 'English',
@@ -19,26 +17,20 @@ const languageNames: Record<string, string> = {
 };
 
 export function LanguageSwitcher() {
-  const router = useRouter();
   const [currentLanguage, setCurrentLanguage] = useState<string>('en');
-  const { i18n } = useTranslation();
 
-  // Get current language from cookie when component mounts
+  // Get current language when component mounts
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Get language from either i18n or the html lang attribute
+      // Get language from the html lang attribute
       const htmlLang = document.documentElement.lang;
-      const lang = i18n.language || htmlLang || 'en';
-      setCurrentLanguage(lang);
+      setCurrentLanguage(htmlLang || 'en');
     }
-  }, [i18n.language]);
+  }, []);
 
   const handleLanguageChange = (language: string) => {
     // Save language preference
     saveLanguagePreference(language);
-    
-    // Change i18n language
-    i18n.changeLanguage(language);
     
     // Set HTML lang attribute
     if (typeof document !== 'undefined') {
@@ -48,10 +40,10 @@ export function LanguageSwitcher() {
     // Update state
     setCurrentLanguage(language);
     
-    // Refresh the page to apply the language change
+    // Reload the page to apply the language change
     // We add a small delay to ensure the cookie is set
     setTimeout(() => {
-      window.location.reload();
+      window.location.href = window.location.pathname;
     }, 100);
   };
 

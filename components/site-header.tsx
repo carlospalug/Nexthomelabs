@@ -8,7 +8,6 @@ import { Menu, Mail, MapPin, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { LanguageSwitcher } from "./language-switcher";
-import { useTranslation } from 'react-i18next';
 
 const researchTopics = [
   {
@@ -120,7 +119,6 @@ export function SiteHeader() {
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const hoverTimeoutRef = useRef<NodeJS.Timeout>();
-  const { t } = useTranslation('common');
 
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
