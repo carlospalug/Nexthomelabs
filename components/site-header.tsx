@@ -8,6 +8,7 @@ import { Menu, Mail, MapPin, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { LanguageSwitcher } from "./language-switcher";
+import { useLanguage } from '@/lib/language-context';
 
 const researchTopics = [
   {
@@ -109,6 +110,7 @@ const contactInfo = {
 };
 
 export function SiteHeader() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -297,7 +299,7 @@ export function SiteHeader() {
               <X className="w-6 h-6" />
             </button>
 
-            <h2 className="text-2xl font-bold mb-6">Contact Us</h2>
+            <h2 className="text-2xl font-bold mb-6">{t('footer.contact')}</h2>
             
             <div className="space-y-6">
               {/* Email Contacts */}
@@ -439,7 +441,7 @@ export function SiteHeader() {
                 onMouseLeave={handleMenuLeave}
                 aria-label="Research menu"
               >
-                Research
+                {t('navigation.research')}
               </button>
               <button
                 ref={(el) => buttonRefs.current['products'] = el}
@@ -450,7 +452,7 @@ export function SiteHeader() {
                 onMouseLeave={handleMenuLeave}
                 aria-label="Products menu"
               >
-                Products
+                {t('navigation.products')}
               </button>
               <button
                 ref={(el) => buttonRefs.current['company'] = el}
@@ -461,7 +463,7 @@ export function SiteHeader() {
                 onMouseLeave={handleMenuLeave}
                 aria-label="Company menu"
               >
-                Company
+                {t('navigation.company')}
               </button>
             </div>
           </div>
@@ -474,7 +476,7 @@ export function SiteHeader() {
               onClick={() => setShowContactInfo(true)}
               aria-label="Contact information"
             >
-              <span className="relative z-10">Contact</span>
+              <span className="relative z-10">{t('navigation.contact')}</span>
               <span className="absolute inset-0 w-0 bg-[#00E6E6]/10 group-hover:w-full transition-all duration-300"></span>
             </Button>
             <Link href="https://centgpt.com" target="_blank">
@@ -482,7 +484,7 @@ export function SiteHeader() {
                 className="bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black relative overflow-hidden group"
                 aria-label="Try CentGPT"
               >
-                <span className="relative z-10">Try CentGPT</span>
+                <span className="relative z-10">{t('navigation.tryCentGPT')}</span>
                 <span className="absolute inset-0 w-0 bg-black/10 group-hover:w-full transition-all duration-300"></span>
               </Button>
             </Link>
@@ -513,7 +515,7 @@ export function SiteHeader() {
               <div className="px-6 py-20 space-y-4 max-h-screen overflow-y-auto">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">Research</p>
+                    <p className="text-sm font-medium text-gray-400">{t('navigation.research')}</p>
                     {researchTopics.map((topic, i) => (
                       <motion.button
                         key={topic.title}
@@ -529,7 +531,7 @@ export function SiteHeader() {
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">Products</p>
+                    <p className="text-sm font-medium text-gray-400">{t('navigation.products')}</p>
                     {productsMenu.map((item, i) => (
                       <motion.button
                         key={item.title}
@@ -545,7 +547,7 @@ export function SiteHeader() {
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-400">Company</p>
+                    <p className="text-sm font-medium text-gray-400">{t('navigation.company')}</p>
                     {companyMenu.map((item, i) => (
                       <motion.button
                         key={item.title}
@@ -575,13 +577,13 @@ export function SiteHeader() {
                       setMobileMenuOpen(false);
                     }}
                   >
-                    Contact
+                    {t('navigation.contact')}
                   </Button>
                   <Link href="https://centgpt.com" target="_blank">
                     <Button 
                       className="w-full bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black"
                     >
-                      Try CentGPT
+                      {t('navigation.tryCentGPT')}
                     </Button>
                   </Link>
                 </motion.div>

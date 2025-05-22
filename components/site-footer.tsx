@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Github, Twitter, Linkedin, ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { LanguageSwitcher } from "./language-switcher";
+import { useLanguage } from '@/lib/language-context';
 
 const footerLinks = {
   company: [
@@ -49,6 +50,7 @@ const footerLinks = {
 
 export function SiteFooter() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const { t } = useLanguage();
 
   useEffect(() => {
     const updateYear = () => {
@@ -79,7 +81,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Company Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Company</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">{t('footer.company')}</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -96,7 +98,7 @@ export function SiteFooter() {
 
           {/* Solutions Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Solutions</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">{t('footer.solutions')}</h3>
             <ul className="space-y-3">
               {footerLinks.solutions.map((link) => (
                 <li key={link.name}>
@@ -124,7 +126,7 @@ export function SiteFooter() {
 
           {/* Research Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Research</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">{t('footer.research')}</h3>
             <ul className="space-y-3">
               {footerLinks.research.map((link) => (
                 <li key={link.name}>
@@ -143,7 +145,7 @@ export function SiteFooter() {
 
           {/* Legal Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Legal</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">{t('footer.legal')}</h3>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
@@ -160,7 +162,7 @@ export function SiteFooter() {
 
           {/* Contact Information */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Contact Us</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-3">
               <li>
                 <a 
@@ -217,7 +219,7 @@ export function SiteFooter() {
                 NextHomeLabs
               </Link>
               <span className="text-sm text-gray-400">
-                © {currentYear} All rights reserved
+                © {currentYear} {t('footer.copyright')}
               </span>
             </div>
 

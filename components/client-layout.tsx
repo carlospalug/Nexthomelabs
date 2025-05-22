@@ -5,7 +5,7 @@ import { useScrollRestoration } from '@/hooks/use-scroll-restoration';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
-  defaultLanguage: string; // Changed from detectedLanguage to defaultLanguage to match app/layout.tsx
+  defaultLanguage: string;
 }
 
 export function ClientLayout({ children, defaultLanguage }: ClientLayoutProps) {

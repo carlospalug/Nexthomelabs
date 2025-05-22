@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ClientLayout } from "@/components/client-layout";
 import { BackToTopButton } from '@/components/BackToTopButton';
 import { ScrollRestoration } from '@/components/scroll-restoration';
+import { LanguageProvider } from '@/lib/language-context';
 import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -219,18 +220,20 @@ export default function RootLayout({
             `,
           }}
         />
-        <ClientLayout defaultLanguage={defaultLanguage}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            storageKey="nexthome-theme"
-          >
-            <ScrollRestoration />
-            {children}
-            <BackToTopButton />
-          </ThemeProvider>
-        </ClientLayout>
+        <LanguageProvider>
+          <ClientLayout defaultLanguage={defaultLanguage}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem={false}
+              storageKey="nexthome-theme"
+            >
+              <ScrollRestoration />
+              {children}
+              <BackToTopButton />
+            </ThemeProvider>
+          </ClientLayout>
+        </LanguageProvider>
       </body>
     </html>
   );
