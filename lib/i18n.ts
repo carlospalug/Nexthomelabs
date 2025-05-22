@@ -26,28 +26,38 @@ const resources = {
   },
 };
 
-// Get initial language from HTML or cookie
-let initialLanguage = DEFAULT_LANGUAGE;
-if (typeof document !== 'undefined') {
-  // First try to get from HTML lang attribute
-  if (document.documentElement.lang) {
-    initialLanguage = document.documentElement.lang;
-  } 
-  // Then try to get from cookie
-  else {
-    const cookieLang = Cookies.get('NEXT_LOCALE');
-    if (cookieLang && SUPPORTED_LANGUAGES.includes(cookieLang)) {
-      initialLanguage = cookieLang;
+// Simplify language detection - avoid circular dependency issues
+function getInitialLanguage(): string {
+  // Try to get language from HTML
+  if (typeof document !== 'undefined' && document.documentElement.lang) {
+    const htmlLang = document.documentElement.lang;
+    if (SUPPORTED_LANGUAGES.includes(htmlLang)) {
+      return htmlLang;
     }
   }
+  
+  // Try to get from cookie
+  try {
+    if (typeof document !== 'undefined') {
+      const cookieLang = Cookies.get('NEXT_LOCALE');
+      if (cookieLang && SUPPORTED_LANGUAGES.includes(cookieLang)) {
+        return cookieLang;
+      }
+    }
+  } catch (error) {
+    console.warn("Error getting language from cookie:", error);
+  }
+  
+  // Default fallback
+  return DEFAULT_LANGUAGE;
 }
 
-// Initialize i18next
+// Initialize i18next with simple initialization to avoid circular dependencies
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: initialLanguage, // Use detected language
+    lng: getInitialLanguage(),
     fallbackLng: DEFAULT_LANGUAGE,
     ns: ['common'],
     defaultNS: 'common',
@@ -59,20 +69,7 @@ i18n
     },
   });
 
-// Listen for language changes
-if (typeof window !== 'undefined') {
-  const htmlObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-        const newLang = document.documentElement.lang;
-        if (newLang && newLang !== i18n.language && SUPPORTED_LANGUAGES.includes(newLang)) {
-          i18n.changeLanguage(newLang);
-        }
-      }
-    });
-  });
-  
-  htmlObserver.observe(document.documentElement, { attributes: true });
-}
+// Don't add complicated event listeners or language detection logic here
+// Keep it simple to avoid circular references and hydration issues
 
 export default i18n;

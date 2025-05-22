@@ -24,27 +24,32 @@ export function LanguageSwitcher() {
     if (typeof window !== 'undefined') {
       // Get language from the html lang attribute
       const htmlLang = document.documentElement.lang;
-      setCurrentLanguage(htmlLang || 'en');
+      if (htmlLang && SUPPORTED_LANGUAGES.includes(htmlLang)) {
+        setCurrentLanguage(htmlLang);
+      }
     }
   }, []);
 
   const handleLanguageChange = (language: string) => {
-    // Save language preference
-    saveLanguagePreference(language);
+    if (language === currentLanguage) return;
     
-    // Set HTML lang attribute
-    if (typeof document !== 'undefined') {
+    try {
+      // Save language preference to cookie
+      saveLanguagePreference(language);
+      
+      // Set current language in state
+      setCurrentLanguage(language);
+      
+      // Set language attribute on HTML element
       document.documentElement.lang = language;
+      
+      // Instead of reloading, redirect to same URL
+      // This prevents the infinite reload loop
+      const currentPath = window.location.pathname;
+      window.location.href = currentPath;
+    } catch (error) {
+      console.error("Error changing language:", error);
     }
-    
-    // Update state
-    setCurrentLanguage(language);
-    
-    // Reload the page to apply the language change
-    // We add a small delay to ensure the cookie is set
-    setTimeout(() => {
-      window.location.href = window.location.pathname;
-    }, 100);
   };
 
   return (

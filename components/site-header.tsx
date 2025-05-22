@@ -124,7 +124,7 @@ export function SiteHeader() {
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
-    ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.3)"]
+    ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.8)"]
   );
   
   // Add blur effect based on scroll
@@ -143,17 +143,22 @@ export function SiteHeader() {
       setSiteLocation('African');
     }
     
-    // Parse Accept-Language header
-    if (typeof window !== 'undefined' && navigator.language) {
-      const userLang = navigator.language.split('-')[0];
-      // You could use this language to set initial state or send to API
-    }
+    // Save current scroll position for back navigation
+    const saveScrollPosition = () => {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem(
+          `scrollPosition-${window.location.pathname}${window.location.search}`,
+          window.scrollY.toString()
+        );
+      }
+    };
     
-    // Get language from headers set by middleware
-    const detectedLanguage = document.documentElement.lang || 'en';
-    if (detectedLanguage) {
-      // You could use this information for analytics or to enhance user experience
-    }
+    // Add event listener for page navigation
+    window.addEventListener('beforeunload', saveScrollPosition);
+    
+    return () => {
+      window.removeEventListener('beforeunload', saveScrollPosition);
+    };
   }, []);
 
   useEffect(() => {
@@ -193,6 +198,7 @@ export function SiteHeader() {
   }, [activeMenu]);
 
   const handleNavigation = (href: string, external: boolean = false) => {
+    // Before navigation, save scroll position
     if (typeof window !== 'undefined') {
       const currentPath = window.location.pathname;
       const scrollPosition = window.scrollY;
@@ -203,7 +209,7 @@ export function SiteHeader() {
     setMobileMenuOpen(false);
 
     if (external) {
-      window.open(href, '_blank');
+      window.open(href, '_blank', 'noopener,noreferrer');
     } else {
       router.push(href);
     }
@@ -488,6 +494,7 @@ export function SiteHeader() {
               className="relative z-50 p-2 rounded-md hover:bg-[#00E6E6]/10 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
             >
               <Menu className="h-6 w-6" />
             </button>
@@ -563,7 +570,10 @@ export function SiteHeader() {
                   <Button 
                     variant="ghost" 
                     className="w-full text-gray-300 hover:text-white"
-                    onClick={() => setShowContactInfo(true)}
+                    onClick={() => {
+                      setShowContactInfo(true);
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     Contact
                   </Button>

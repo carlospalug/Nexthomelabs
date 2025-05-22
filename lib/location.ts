@@ -114,10 +114,22 @@ export function getLanguageFromLocation(countryCode: string): string {
 // Function to save the user's language preference
 export function saveLanguagePreference(language: string): void {
   try {
-    if (SUPPORTED_LANGUAGES.includes(language)) {
-      Cookies.set(LANGUAGE_COOKIE_NAME, language, { expires: 365, path: '/' });
-      console.log(`Language preference saved: ${language}`);
+    if (typeof window === 'undefined') return;
+    
+    // Verify it's a supported language
+    if (!SUPPORTED_LANGUAGES.includes(language)) {
+      language = DEFAULT_LANGUAGE;
     }
+    
+    // Set the cookie with a longer expiration (1 year)
+    // Don't use path=/ to prevent middleware issues
+    Cookies.set(LANGUAGE_COOKIE_NAME, language, { 
+      expires: 365,
+      sameSite: 'lax',
+      secure: window.location.protocol === 'https:'
+    });
+    
+    console.log(`Language preference saved: ${language}`);
   } catch (error) {
     console.error('Error saving language preference:', error);
   }
@@ -126,7 +138,13 @@ export function saveLanguagePreference(language: string): void {
 // Function to save the user's detected location
 export function saveUserLocation(countryCode: string): void {
   try {
-    Cookies.set(LOCATION_COOKIE_NAME, countryCode, { expires: 7, path: '/' });
+    if (typeof window === 'undefined') return;
+    
+    Cookies.set(LOCATION_COOKIE_NAME, countryCode, { 
+      expires: 7,
+      sameSite: 'lax',
+      secure: window.location.protocol === 'https:'
+    });
   } catch (error) {
     console.error('Error saving user location:', error);
   }
@@ -135,7 +153,10 @@ export function saveUserLocation(countryCode: string): void {
 // Function to get the language preference from cookie
 export function getLanguagePreference(): string | undefined {
   try {
-    return Cookies.get(LANGUAGE_COOKIE_NAME);
+    if (typeof window === 'undefined') return undefined;
+    
+    const cookie = Cookies.get(LANGUAGE_COOKIE_NAME);
+    return cookie;
   } catch (error) {
     console.error('Error getting language preference:', error);
     return undefined;
@@ -145,6 +166,8 @@ export function getLanguagePreference(): string | undefined {
 // Function to get the stored user location from cookie
 export function getSavedUserLocation(): string | undefined {
   try {
+    if (typeof window === 'undefined') return undefined;
+    
     return Cookies.get(LOCATION_COOKIE_NAME);
   } catch (error) {
     console.error('Error getting saved user location:', error);
@@ -155,18 +178,18 @@ export function getSavedUserLocation(): string | undefined {
 // Main function to detect user language
 export async function detectUserLanguage(): Promise<string> {
   try {
-    // First check if the user has a saved preference
-    const savedLanguage = getLanguagePreference();
-    if (savedLanguage && SUPPORTED_LANGUAGES.includes(savedLanguage)) {
-      return savedLanguage;
-    }
-
-    // If the document is available, check the html lang attribute
+    // First check if the document is available and has a lang attribute
     if (typeof document !== 'undefined' && document.documentElement.lang) {
       const htmlLang = document.documentElement.lang;
       if (SUPPORTED_LANGUAGES.includes(htmlLang)) {
         return htmlLang;
       }
+    }
+    
+    // Next check if the user has a saved preference
+    const savedLanguage = getLanguagePreference();
+    if (savedLanguage && SUPPORTED_LANGUAGES.includes(savedLanguage)) {
+      return savedLanguage;
     }
 
     // Try to get location from cookie

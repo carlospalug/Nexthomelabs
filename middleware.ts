@@ -48,55 +48,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
-  // Handle language routing
-  // Detect accepted languages from the Accept-Language header
-  const acceptLanguageHeader = request.headers.get('accept-language') || '';
-  const userLanguages = acceptLanguageHeader.split(',').map(lang => lang.split(';')[0].split('-')[0]);
-  
-  // Detect country from GeoIP (Vercel provides this, or use a fallback)
-  const country = request.geo?.country || '';
-  
-  // Extract the current language from the URL path if it exists
-  const pathname = url.pathname;
-  const pathnameSegments = pathname.split('/').filter(Boolean);
-  const currentLang = pathnameSegments[0];
-  
-  // Check if the first segment is a supported language
-  const isLanguageInPath = SUPPORTED_LANGUAGES.includes(currentLang);
-  
-  // If it's not already in the path, determine the language to use
-  if (!isLanguageInPath) {
-    // Check for language cookie first
-    const languageCookie = request.cookies.get('NEXT_LOCALE')?.value;
-    if (languageCookie && SUPPORTED_LANGUAGES.includes(languageCookie)) {
-      // Don't redirect, just pass the language in headers
-      const response = NextResponse.next();
-      response.headers.set('x-detected-language', languageCookie);
-      return response;
-    }
-    
-    // Priority: 1. Country based mapping
-    let detectedLanguage = country && COUNTRY_LANGUAGE_MAP[country] ? COUNTRY_LANGUAGE_MAP[country] : '';
-    
-    // 2. Browser preference that we support
-    if (!detectedLanguage) {
-      const preferredLanguage = userLanguages.find(lang => SUPPORTED_LANGUAGES.includes(lang));
-      if (preferredLanguage) {
-        detectedLanguage = preferredLanguage;
-      }
-    }
-    
-    // 3. Default language
-    if (!detectedLanguage || !SUPPORTED_LANGUAGES.includes(detectedLanguage)) {
-      detectedLanguage = DEFAULT_LANGUAGE;
-    }
-    
-    // Pass the detected language in headers instead of redirecting
-    const response = NextResponse.next();
-    response.headers.set('x-detected-language', detectedLanguage);
-    return response;
-  }
-  
   // Domain handling
   // Check if the domain is allowed
   if (!ALLOWED_DOMAINS.includes(domain) && !hostname.includes('localhost')) {
@@ -115,9 +66,14 @@ export function middleware(request: NextRequest) {
   response.headers.set('x-site-title', config.title);
   response.headers.set('x-site-description', config.description);
   
-  // Add detected language to headers
-  if (isLanguageInPath) {
-    response.headers.set('x-detected-language', currentLang);
+  // Get language from cookie
+  const languageCookie = request.cookies.get('NEXT_LOCALE')?.value;
+  if (languageCookie && SUPPORTED_LANGUAGES.includes(languageCookie)) {
+    response.headers.set('x-detected-language', languageCookie);
+  }
+  else {
+    // Fallback to default language
+    response.headers.set('x-detected-language', DEFAULT_LANGUAGE);
   }
   
   return response;
