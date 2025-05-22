@@ -24,6 +24,7 @@ import { CaseStudiesSection } from "@/components/sections/case-studies-section";
 import { ResearchSection } from "@/components/sections/research-section";
 import { BlockchainExplorerSection } from "@/components/sections/blockchain-explorer-section";
 import { TechStackSection } from "@/components/sections/tech-stack-section";
+import { TechnologyDeepDiveSection } from "@/components/sections/technology-deep-dive-section";
 import { InnovationLabSection } from "@/components/sections/innovation-lab-section";
 import { LearningHubSection } from "@/components/sections/learning-hub-section";
 import { NewsSection } from "@/components/sections/news-section";
@@ -71,6 +72,7 @@ export default function Home() {
         <ResearchSection />
         <BlockchainExplorerSection />
         <TechStackSection />
+        <TechnologyDeepDiveSection />
         <InnovationLabSection />
         <LearningHubSection />
         
