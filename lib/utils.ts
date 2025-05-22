@@ -67,3 +67,21 @@ export function initScrollAnimations() {
     };
   }
 }
+
+// Get image placeholder color based on hex or team member
+export function getPlaceholderColor(color: string | number) {
+  // If it's a number (team member index), return one of our predefined colors
+  if (typeof color === 'number') {
+    const colors = [
+      'rgb(6, 182, 212)', // cyan-500
+      'rgb(16, 185, 129)', // emerald-500
+      'rgb(139, 92, 246)', // violet-500
+      'rgb(245, 158, 11)', // amber-500
+      'rgb(244, 63, 94)', // rose-500
+    ];
+    return colors[color % colors.length];
+  }
+  
+  // Otherwise, use the provided hex color
+  return color;
+}
