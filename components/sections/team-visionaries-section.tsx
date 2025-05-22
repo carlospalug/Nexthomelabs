@@ -8,6 +8,7 @@ import { ArrowRight, Twitter, Linkedin, ExternalLink } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useInView } from "framer-motion";
 import { team } from "@/lib/team-data";
+import { getPlaceholderColor } from "@/lib/utils";
 
 export function TeamVisionariesSection() {
   // Get team members
@@ -22,10 +23,22 @@ export function TeamVisionariesSection() {
   // State for currently active member
   const [activeMember, setActiveMember] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Create refs for animation
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
+
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   // Auto-rotate featured member (unless user is hovering)
   useEffect(() => {
@@ -80,7 +93,8 @@ export function TeamVisionariesSection() {
   return (
     <section 
       ref={sectionRef}
-      className="py-32 bg-black relative overflow-hidden"
+      className="py-20 md:py-32 bg-black relative overflow-hidden"
+      id="team"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
@@ -96,28 +110,236 @@ export function TeamVisionariesSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
-          <h2 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00E6E6] to-white mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00E6E6] to-white mb-4 md:mb-6">
             Meet Our Visionaries
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
             The innovative minds behind NextHomeLabs building the future of technology in Africa
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
+        {/* Mobile Layout */}
+        <div className="md:hidden">
+          {/* Featured member showcase */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative mb-8"
+          >
+            {featuredMembers.map((member, index) => member && (
+              <div 
+                key={member.id}
+                className={`${activeMember === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95 absolute'} transition-all duration-700 ease-in-out`}
+                style={{ position: activeMember === index ? 'relative' : 'absolute' }}
+              >
+                <div className="relative">
+                  {/* Profile Image */}
+                  <div className="relative z-10 rounded-2xl overflow-hidden">
+                    <div className="aspect-[4/5]">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        priority
+                        className="object-cover"
+                      />
+                    </div>
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    
+                    {/* Member info */}
+                    <div className="absolute left-0 right-0 bottom-0 p-4 z-30">
+                      <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/10 backdrop-blur-sm mb-2 ${getMemberAccentColor(index)}`}>
+                        {member.role}
+                      </div>
+                      <h3 className="text-2xl font-bold text-white mb-2">{member.name}</h3>
+                      
+                      {/* Social links */}
+                      <div className="flex gap-3 mt-3">
+                        {member.twitterlink && (
+                          <a 
+                            href={member.twitterlink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                            aria-label={`${member.name}'s Twitter profile`}
+                          >
+                            <Twitter className="w-4 h-4 text-white" />
+                          </a>
+                        )}
+                        {member.linkedInLink && (
+                          <a 
+                            href={member.linkedInLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                            aria-label={`${member.name}'s LinkedIn profile`}
+                          >
+                            <Linkedin className="w-4 h-4 text-white" />
+                          </a>
+                        )}
+                        <Link 
+                          href={`/team/${member.slug}`}
+                          className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                          aria-label={`View ${member.name}'s full profile`}
+                        >
+                          <ExternalLink className="w-4 h-4 text-white" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+          
+          {/* Quote section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mb-8"
+          >
+            {featuredMembers.map((member, index) => member && (
+              <div 
+                key={`quote-${member.id}`}
+                className={`${activeMember === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 absolute'} transition-all duration-700 ease-in-out`}
+                style={{ position: activeMember === index ? 'relative' : 'absolute' }}
+              >
+                <div className="relative">
+                  <div className={`absolute -left-4 -top-4 text-6xl ${getMemberAccentColor(index)} opacity-20 font-serif`}>"</div>
+                  <blockquote className={`text-xl md:text-2xl font-light italic leading-relaxed mb-4 pl-2 ${getMemberAccentColor(index)}`}>
+                    {member.slug === "ohoodrichard" ? 
+                      "Innovation in technology isn't just about creating solutions; it's about crafting a better future for generations to come." :
+                    member.slug === "yusufabdulhakim" ?
+                      "The true power of AI lies not in replacing human intelligence, but in amplifying our capacity to solve complex challenges." :
+                    member.slug === "sseruwufarooq" ?
+                      "Building robust and scalable systems is an art that combines technical excellence with deep understanding of user needs." :
+                    member.slug === "antoniykanu" ?
+                      "At the intersection of AI and security lies the future of digital resilience, where intelligent systems protect as much as they empower." :
+                      "Technology advocacy is about bridging the gap between innovation and understanding, making advanced solutions accessible to all."
+                    }
+                  </blockquote>
+                  <div className="flex items-center justify-end">
+                    <div className="h-px bg-gradient-to-r from-transparent to-gray-600 w-16 mr-2"></div>
+                    <p className="text-gray-400 text-xs">{member.name}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+          
+          {/* Team selector */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mb-6"
+            onTouchStart={() => setIsHovering(true)}
+            onTouchEnd={() => setIsHovering(false)}
+          >
+            <div className="grid grid-cols-5 gap-2">
+              {featuredMembers.map((member, index) => member && (
+                <button 
+                  key={`selector-${member.id}`}
+                  className="relative group"
+                  onClick={() => setActiveMember(index)}
+                  aria-label={`Select ${member.name}`}
+                >
+                  <div 
+                    className={`
+                      w-full aspect-square overflow-hidden rounded-lg border-2 transition-all duration-300
+                      ${activeMember === index 
+                        ? `border-[#00E6E6] shadow-sm shadow-[#00E6E6]/20` 
+                        : `border-gray-800 opacity-60 group-hover:opacity-100 group-hover:border-gray-600`
+                      }
+                    `}
+                    style={{
+                      background: activeMember === index 
+                        ? `radial-gradient(circle at center, rgba(0, 230, 230, 0.3), transparent 70%)`
+                        : 'transparent'
+                    }}
+                  >
+                    <Image 
+                      src={member.image}
+                      alt={member.name}
+                      width={60}
+                      height={60}
+                      className="w-full h-full object-cover"
+                    />
+                    
+                    {/* Active indicator */}
+                    {activeMember === index && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <div className="w-5 h-5 rounded-full bg-[#00E6E6] text-black flex items-center justify-center text-xs">
+                          ✓
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+          
+          {/* Short bio */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            {featuredMembers.map((member, index) => member && (
+              <div 
+                key={`bio-${member.id}`}
+                className={`${activeMember === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5 hidden'} transition-all duration-500`}
+              >
+                <div className="p-4 rounded-xl border border-[#00E6E6]/10 bg-black/40 backdrop-blur-sm">
+                  <p className="text-gray-300 text-sm leading-relaxed mb-4">{member.shortDescription}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {member.expertise?.slice(0, 2).map((skill, i) => (
+                      <span key={i} className="px-2 py-1 rounded-full bg-[#00E6E6]/10 text-[#00E6E6] text-xs">
+                        {skill}
+                      </span>
+                    ))}
+                    {member.expertise && member.expertise.length > 2 && (
+                      <span className="px-2 py-1 rounded-full bg-[#00E6E6]/10 text-[#00E6E6] text-xs">
+                        +{member.expertise.length - 2} more
+                      </span>
+                    )}
+                  </div>
+                  <Link href={`/team/${member.slug}`} className="block">
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="border-[#00E6E6] text-[#00E6E6] hover:bg-[#00E6E6]/10 w-full"
+                    >
+                      View Full Profile
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:grid md:grid-cols-12 md:gap-12 md:items-center">
           {/* Featured Member Showcase - Left Side */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="lg:col-span-5 relative"
+            className="col-span-5 relative"
           >
             {featuredMembers.map((member, index) => member && (
               <div 
                 key={member.id}
-                className={`${activeMember === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} absolute inset-0 transition-all duration-700 ease-in-out`}
+                className={`${activeMember === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95 absolute'} transition-all duration-700 ease-in-out`}
                 style={{ position: activeMember === index ? 'relative' : 'absolute' }}
               >
                 <div className="relative">
@@ -154,6 +376,7 @@ export function TeamVisionariesSection() {
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                          aria-label={`${member.name}'s Twitter profile`}
                         >
                           <Twitter className="w-5 h-5 text-white" />
                         </a>
@@ -164,6 +387,7 @@ export function TeamVisionariesSection() {
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                          aria-label={`${member.name}'s LinkedIn profile`}
                         >
                           <Linkedin className="w-5 h-5 text-white" />
                         </a>
@@ -171,6 +395,7 @@ export function TeamVisionariesSection() {
                       <Link 
                         href={`/team/${member.slug}`}
                         className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                        aria-label={`View ${member.name}'s full profile`}
                       >
                         <ExternalLink className="w-5 h-5 text-white" />
                       </Link>
@@ -186,14 +411,14 @@ export function TeamVisionariesSection() {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="lg:col-span-7"
+            className="col-span-7"
           >
             {/* Featured quote from active team member */}
-            <div className="mb-10">
+            <div className="mb-10 h-48">
               {featuredMembers.map((member, index) => member && (
                 <div 
                   key={`quote-${member.id}`}
-                  className={`${activeMember === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} transition-all duration-700 ease-in-out absolute`}
+                  className={`${activeMember === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 absolute'} transition-all duration-700 ease-in-out`}
                   style={{ position: activeMember === index ? 'relative' : 'absolute' }}
                 >
                   <div className="relative">
@@ -230,6 +455,7 @@ export function TeamVisionariesSection() {
                   key={`selector-${member.id}`}
                   className="relative group"
                   onClick={() => setActiveMember(index)}
+                  aria-label={`Select ${member.name}`}
                 >
                   <div className={`
                     w-full aspect-square overflow-hidden rounded-xl border-2 transition-all duration-300
@@ -302,11 +528,11 @@ export function TeamVisionariesSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-16"
+          className="text-center mt-10 md:mt-16"
         >
           <Link href="/team">
             <Button
-              className="bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black px-8"
+              className="bg-[#00E6E6] hover:bg-[#00E6E6]/90 text-black px-6 md:px-8"
               size="lg"
             >
               Meet Our Full Team
