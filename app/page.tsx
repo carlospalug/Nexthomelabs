@@ -20,7 +20,7 @@ import { MarketGraphSection } from "@/components/sections/market-graph-section";
 import { AIServicesSection } from "@/components/sections/ai-services-section";
 import { WebDevSection } from "@/components/sections/web-dev-section";
 import { CentGPTSection } from "@/components/sections/cent-gpt-section";
-import { CaseStudiesSection } from "@/components/sections/case-studies-section";
+import { DetailedCaseStudiesSection } from "@/components/sections/detailed-case-studies-section";
 import { ResearchSection } from "@/components/sections/research-section";
 import { BlockchainExplorerSection } from "@/components/sections/blockchain-explorer-section";
 import { TechStackSection } from "@/components/sections/tech-stack-section";
@@ -67,7 +67,7 @@ export default function Home() {
         
         {/* Product showcase */}
         <CentGPTSection />
-        <CaseStudiesSection />
+        <DetailedCaseStudiesSection />
         
         {/* Knowledge and expertise sections */}
         <ResearchSection />
