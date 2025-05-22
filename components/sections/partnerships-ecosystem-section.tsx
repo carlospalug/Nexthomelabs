@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Handshake, Globe, Users, Building, Certificate, ArrowRight, ExternalLink } from "lucide-react";
+import { Handshake, Globe, Users, Building, AlignCenterVertical as Certificate, ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 // Define partnership categories and partners
